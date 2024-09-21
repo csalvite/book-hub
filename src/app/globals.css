@@ -9,18 +9,18 @@
 }
 
 body {
-  background-color: var(--foreground-rgb);
+  /* background-color: var(--foreground-rgb); */
   color: var(--letters);
 }
 
-button {
+/* button {
   background-color: var(--buttons);
   padding: 0.8rem 2rem;
   border-radius: 25px;
   transition: all 0.3s ease;
-}
+} */
 
-button:hover {
+/* button:hover {
   color: var(--foreground-rgb);
   background-color: var(--letters);
   box-shadow: 0px 5px 5px var(--buttons);
@@ -28,4 +28,4 @@ button:hover {
 
 button:active {
   background-color: var(--buttons);
-}
+} */

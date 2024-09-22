@@ -1,8 +1,6 @@
+'use client';
+import { LoginForm } from '@/components/Forms/User/LoginForm';
+
 export default function Home() {
-  return (
-    <main>
-      <h1>Página de Login</h1>
-      <button>Boton</button>
-    </main>
-  );
+  return <LoginForm />;
 }

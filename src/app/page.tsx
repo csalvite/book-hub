@@ -2,17 +2,19 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className='flex flex-col items-center justify-center min-w-full min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500'>
+    <main className='flex flex-col items-center justify-center gap-8 min-w-full min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500'>
       <h1 className='text-3xl'>BookHub</h1>
-      <Link href={'/auth/register/user'}>
-        <p className='p-2 inline-block hover:underline'>
-          No tienes una cuenta? Regístrate
+      <Link href={'/auth/login'}>
+        <p className='p-2 inline-block flex items-center justify-center gap-2'>
+          <i className='fa-regular fa-circle-user text-2xl'></i>{' '}
+          <span className='hover:underline'>Iniciar Sesión</span>
         </p>
       </Link>
-      <br />
+
       <Link href={'/auth/register/business'}>
-        <p className='p-2 inline-block hover:underline'>
-          Ah pero eres empresa y quieres darte de alta? Regístrate
+        <p className='p-2 inline-block flex items-center justify-center gap-2'>
+          <i className='fa-solid fa-shop text-2xl'></i>{' '}
+          <span className='hover:underline'>Da de alta tu negocio</span>
         </p>
       </Link>
     </main>

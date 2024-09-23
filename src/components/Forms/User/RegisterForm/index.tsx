@@ -17,7 +17,7 @@ export const RegisterForm = () => {
         </h2>
       </motion.div>
       <form className='w-10/12' onSubmit={() => {}}>
-        <div className='h-full flex flex-col gap-6'>
+        <div className='h-full w-full flex flex-col items-center gap-6'>
           <Input label='Email' type='email' placeholder='Enter your email' />
           <Input
             label='Nombre y apellidos'
@@ -31,7 +31,7 @@ export const RegisterForm = () => {
             placeholder='Número de teléfono'
           />
           <motion.button
-            className='w-full md:w-10/12 mt-4 text-slate-300 bg-black border border-black rounded p-2'
+            className='w-10/12 mt-4 text-slate-300 bg-black border border-black rounded p-2'
             whileHover={{ scale: [null, 1.1, 1.05] }}
             transition={{ duration: 0.3 }}
           >

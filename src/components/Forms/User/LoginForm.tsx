@@ -28,7 +28,7 @@ export const LoginForm = () => {
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: 'easeOut', duration: 0.3, delay: 0.2 }}
+            transition={{ ease: 'easeOut', duration: 0.3, delay: 0.1 }}
             className='w-full'
           >
             <Input
@@ -47,7 +47,7 @@ export const LoginForm = () => {
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: 'easeOut', duration: 0.3, delay: 0.4 }}
+            transition={{ ease: 'easeOut', duration: 0.3, delay: 0.15 }}
             className='w-full text-center'
           >
             <motion.button
@@ -63,7 +63,7 @@ export const LoginForm = () => {
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ ease: 'easeOut', duration: 0.3, delay: 0.6 }}
+        transition={{ ease: 'easeOut', duration: 0.3, delay: 0.2 }}
         className='w-full flex justify-center items-center'
       >
         <Separador className='flex items-center gap-4 w-10/12' text='Or' />
@@ -72,7 +72,7 @@ export const LoginForm = () => {
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3, delay: 0.8 }}
+          transition={{ ease: 'easeOut', duration: 0.3, delay: 0.25 }}
           className='w-full flex justify-center items-center'
         >
           <motion.button
@@ -86,7 +86,7 @@ export const LoginForm = () => {
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3, delay: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3, delay: 0.3 }}
           className='w-full flex justify-center items-center'
         >
           No tienes cuenta?{' '}

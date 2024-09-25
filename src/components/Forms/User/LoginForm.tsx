@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export const LoginForm = () => {
   return (
-    <section className='h-[40rem] py-8 lg:h-[50rem] w-10/12 rounded-xl border border-black lg:w-6/12 xl:w-4/12 bg-white flex flex-col items-center justify-evenly text-zinc-950'>
+    <section className='h-[40rem] py-8 lg:h-[50rem] w-11/12 rounded-xl border border-black lg:w-6/12 xl:w-4/12 bg-white flex flex-col items-center justify-evenly text-zinc-950'>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

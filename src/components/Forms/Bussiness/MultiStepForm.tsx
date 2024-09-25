@@ -2,18 +2,19 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { RegisterForm } from '@/components/Forms/User/RegisterForm';
 import { Address } from '../User/RegisterForm/Adress';
+import { MyMaps } from '../../MyMaps';
 
 const Step1 = ({ nextStep }: { nextStep: () => void }) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className='p-4 w-full h-full flex justify-center'
+    className='py-4 w-full h-full flex justify-center'
   >
     <RegisterForm
       title='Crea un negocio'
       business={true}
-      className='h-[40rem] py-8 sm:h-[50rem] w-10/12 rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
+      className='h-[40rem] py-8 sm:h-[50rem] w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
       onClick={nextStep}
     />
     ;
@@ -31,7 +32,7 @@ const Step2 = ({
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className='p-4 w-full h-full flex justify-center'
+    className='py-4 w-full h-full flex justify-center'
   >
     <Address
       title='Dirección'
@@ -48,19 +49,17 @@ const Step3 = ({ prevStep }: { prevStep: () => void }) => (
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className='p-4'
+    className='py-4 w-full h-full flex justify-center'
   >
-    <h2 className='text-xl font-bold mb-4'>Resumen y Confirmación</h2>
-    {/* Contenido del resumen */}
-    <button
-      className='bg-gray-500 text-white px-4 py-2 rounded mr-2'
-      onClick={prevStep}
+    <MyMaps locationName={'Serra de Outes, A Coruña'} />
+    {/* <motion.button
+      className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
+      whileHover={{ scale: [null, 1.1, 1.05] }}
+      transition={{ duration: 0.3 }}
+      onClick={() => prevStep()}
     >
-      Anterior
-    </button>
-    <button className='bg-green-500 text-white px-4 py-2 rounded'>
-      Confirmar
-    </button>
+      Atrás
+    </motion.button> */}
   </motion.div>
 );
 
@@ -87,7 +86,7 @@ export default function MultiStepForm() {
   const prevStep = () => setStep((prevStep) => prevStep - 1);
 
   return (
-    <div className='w-10/12 lg:w-8/12 xl:w-4/12 h-4/5 flex flex-col items-center mx-auto bg-white p-8 shadow-lg rounded-xl'>
+    <div className='w-11/12 lg:w-8/12 xl:w-4/12 h-4/5 flex flex-col items-center mx-auto bg-white p-8 shadow-lg rounded-xl'>
       {step === 1 && <Step1 nextStep={nextStep} />}
       {step === 2 && <Step2 nextStep={nextStep} prevStep={prevStep} />}
       {step === 3 && <Step3 prevStep={prevStep} />}

@@ -14,7 +14,7 @@ export const Address = ({
   nextStep: () => void;
 }) => {
   return (
-    <section className='h-[40rem] py-8 sm:h-[50rem] w-10/12 rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'>
+    <section className='h-[40rem] py-8 sm:h-[50rem] rounded-xl border border-black w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -12,6 +12,7 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
+    transition={{ ease: 'easeOut', duration: 0.3 }}
     exit={{ opacity: 0 }}
     className='py-4 w-full h-full flex justify-center'
   >
@@ -36,6 +37,7 @@ const Step2 = ({
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
+    transition={{ ease: 'easeOut', duration: 0.3 }}
     className='py-4 w-full h-full flex justify-center'
   >
     <Address
@@ -53,9 +55,20 @@ const Step3 = ({ prevStep }: { prevStep: () => void }) => (
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
+    transition={{ ease: 'easeOut', duration: 0.3 }}
     className='py-4 w-full h-full flex flex-col justify-center items-center'
   >
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: 'easeOut', duration: 0.3 }}
+      className='cn-w-full flex flex-col items-center'
+    >
+      <h1 className='text-3xl mb-2'>Tu Dirección</h1>
+      <h2 className='text-xs'>Es esta tu dirección?</h2>
+    </motion.div>
     <Mapa location={'Noia'} />
+    <p>Puedes modificar tu dirección exacta en este mapa</p>
     <motion.button
       className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
       whileHover={{ scale: [null, 1.1, 1.05] }}

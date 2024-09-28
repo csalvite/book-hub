@@ -1,5 +1,5 @@
 'use client';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,16 @@ const customIcon = new L.Icon({
   iconAnchor: [12, 41], // Punto de anclaje del icono
   popupAnchor: [1, -34], // Punto de anclaje del popup
 });
+
+// Componente para centrar el mapa cuando cambie la posición
+const ChangeMapView = ({ position }: { position: [number, number] }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(position, map.getZoom()); // Actualiza la vista del mapa
+  }, [position, map]);
+
+  return null;
+};
 
 const Mapa = ({ location }: { location: string }) => {
   const [position, setPosition] = useState<[number, number]>([51.505, -0.09]); // Coordenadas iniciales por defecto.
@@ -40,16 +50,17 @@ const Mapa = ({ location }: { location: string }) => {
 
   return (
     <MapContainer
-      center={[42.84064, -8.90257]}
-      zoom={10}
+      center={position}
+      zoom={20}
       style={{ height: '400px', width: '100%' }}
     >
+      <ChangeMapView position={position} />
       <TileLayer
         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">CARTO</a>'
       />
       <Marker position={position} icon={customIcon}>
-        <Popup>holi 😄</Popup>
+        <Popup>Tu negocio! 😄</Popup>
       </Marker>
     </MapContainer>
   );

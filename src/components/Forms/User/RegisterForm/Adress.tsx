@@ -38,10 +38,15 @@ export const Address = ({
             <Input
               label='Dirección'
               type='text'
-              className='grow'
+              className='grow w-full'
               placeholder='Nombre de calle o avenida'
             />
-            <Input label='Número' type='number' placeholder='Número de calle' />
+            <Input
+              label='Número'
+              type='number'
+              className='w-16'
+              placeholder='Nº'
+            />
           </div>
           <Input label='Ciudad' type='text' placeholder='Ciudad' />
           <Input label='Provincia' type='text' placeholder='Provincia' />

@@ -26,7 +26,7 @@ export const Input = ({
   required,
 }: inputProps) => {
   return (
-    <div className='w-full flex items-end gap-6'>
+    <div className={`${className ? className : 'w-full'} flex items-end gap-6`}>
       {type === 'telf' && <PrefixSelector setPrefix={setPrefix} />}
       <div id='input' className='w-full flex flex-col'>
         <label htmlFor={name} className='text-gray-600 text-xs'>

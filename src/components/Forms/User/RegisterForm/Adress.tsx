@@ -22,7 +22,9 @@ export const Address = ({
         className='cn-w-full flex flex-col items-center'
       >
         <h1 className='text-3xl mb-2'>{title}</h1>
-        <h2 className='text-xs'>Donde pueden encontrarte tus clientes</h2>
+        <h2 className='text-xs text-center'>
+          Donde pueden encontrarte tus clientes
+        </h2>
       </motion.div>
       <motion.form
         initial={{ opacity: 0 }}

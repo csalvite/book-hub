@@ -22,7 +22,7 @@ export const RegisterForm = ({
         className='cn-w-full flex flex-col items-center'
       >
         <h1 className='text-3xl mb-2'>{title}</h1>
-        <h2 className='text-xs'>
+        <h2 className='text-xs text-center'>
           Introduce tus datos para empezar a usar BookHub!
         </h2>
       </motion.div>

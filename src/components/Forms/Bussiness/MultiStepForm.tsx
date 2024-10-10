@@ -107,61 +107,193 @@ const Step4 = ({
 }: {
   prevStep: () => void;
   nextStep: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ ease: 'easeOut', duration: 0.3 }}
-    className='py-4 w-full h-full flex flex-col justify-center items-center'
-  >
+}) => {
+  return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ ease: 'easeOut', duration: 0.3 }}
-      className='cn-w-full flex flex-col items-center'
+      className='py-4 w-full h-full flex flex-col justify-center items-center'
     >
-      <h1 className='text-3xl mb-2'>Ya casi estamos</h1>
-      <h2 className='text-xs text-center'>Cuentanos más sobre tu negocio</h2>
-    </motion.div>
-    <div className='w-full h-full py-4'>
-      <motion.select
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ ease: 'easeOut', duration: 0.3 }}
         className='cn-w-full flex flex-col items-center'
       >
-        <motion.option>Opcion 1</motion.option>
-        <motion.option>Opcion 2</motion.option>
-        <motion.option>Opcion 3</motion.option>
-        <motion.option>Opcion 4</motion.option>
-      </motion.select>
-    </div>
-    <div className='w-full flex gap-4'>
-      <motion.button
-        className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
-        whileHover={{ scale: [null, 1.1, 1.05] }}
-        transition={{ duration: 0.3 }}
-        onClick={() => prevStep()}
-      >
-        Atrás
-      </motion.button>
+        <h1 className='text-3xl mb-2'>Ya casi estamos</h1>
+        <h2 className='text-xs text-center'>Cuentanos más sobre tu negocio</h2>
+      </motion.div>
+      <div className='w-full h-full py-4 flex flex-col items-center'>
+        <h3 className='my-8 text-xl'>
+          Cuáles son los servicios que ofrece tu negocio?
+        </h3>
+        {/* aqui mapeo del get de servicios */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+        >
+          <input
+            id='estetica'
+            type='checkbox'
+            className=''
+            name='estetica'
+            value={'Estética'}
+          />
+          <label htmlFor='estetica' className='text-lg'>
+            Estética
+          </label>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+        >
+          <input
+            id='fisioterapia'
+            type='checkbox'
+            className=''
+            name='estetica'
+            value={'Fisioterapia'}
+          />
+          <label htmlFor='fisioterapia' className='text-lg'>
+            Fisioterapia
+          </label>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+        >
+          <input
+            id='restaurante'
+            type='checkbox'
+            className=''
+            name='estetica'
+            value={'Restaurante'}
+          />
+          <label htmlFor='restaurante' className='text-lg'>
+            Restaurante
+          </label>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+        >
+          <input
+            id='cafeteria'
+            type='checkbox'
+            className=''
+            name='estetica'
+            value={'Cafetería'}
+          />
+          <label htmlFor='cafeteria' className='text-lg'>
+            Cafetería
+          </label>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+        >
+          <input
+            id='deportes'
+            type='checkbox'
+            className=''
+            name='estetica'
+            value={'Deportes'}
+          />
+          <label htmlFor='deportes' className='text-lg'>
+            Deportes
+          </label>
+        </motion.div>
+      </div>
+      <div className='w-full flex gap-4'>
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => prevStep()}
+        >
+          Atrás
+        </motion.button>
 
-      <motion.button
-        className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
-        whileHover={{ scale: [null, 1.1, 1.05] }}
-        transition={{ duration: 0.3 }}
-        onClick={() => nextStep()}
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => nextStep()}
+        >
+          Continuar
+        </motion.button>
+      </div>
+    </motion.div>
+  );
+};
+
+const Step5 = ({
+  prevStep,
+  nextStep,
+}: {
+  prevStep: () => void;
+  nextStep: () => void;
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: 'easeOut', duration: 0.3 }}
+      className='py-4 w-full h-full flex flex-col justify-center items-center'
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ ease: 'easeOut', duration: 0.3 }}
+        className='cn-w-full flex flex-col items-center'
       >
-        Continuar
-      </motion.button>
-    </div>
-  </motion.div>
-);
+        <h1 className='text-3xl mb-2'>Horarios</h1>
+        <h2 className='text-xs text-center'>
+          Indica el horario en el que podemos encargar tus servicios
+        </h2>
+      </motion.div>
+      <div className='w-full h-full py-4 flex flex-col items-center'>
+        <h3 className='my-8 text-xl'>Cosas</h3>
+      </div>
+      <div className='w-full flex gap-4'>
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => prevStep()}
+        >
+          Atrás
+        </motion.button>
+
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => nextStep()}
+        >
+          Continuar
+        </motion.button>
+      </div>
+    </motion.div>
+  );
+};
 
 const ProgressBar = ({ step }: { step: number }) => (
   <div className='flex justify-center items-center space-x-4'>
-    {[1, 2, 3, 4].map((num) => (
+    {[1, 2, 3, 4, 5].map((num) => (
       <div key={num} className='flex flex-col items-center'>
         <div
           className={`w-4 h-4 rounded-full flex items-center justify-center ${
@@ -185,6 +317,7 @@ export default function MultiStepForm() {
       {step === 2 && <Step2 nextStep={nextStep} prevStep={prevStep} />}
       {step === 3 && <Step3 prevStep={prevStep} nextStep={nextStep} />}
       {step === 4 && <Step4 prevStep={prevStep} nextStep={nextStep} />}
+      {step === 5 && <Step5 prevStep={prevStep} nextStep={nextStep} />}
       <ProgressBar step={step} />
     </div>
   );

@@ -11,10 +11,10 @@ export default function Home() {
         </p>
       </Link>
 
-      <Link href={'/auth/register/business'}>
+      <Link href={'/business'}>
         <p className='p-2 inline-block flex items-center justify-center gap-2'>
           <i className='fa-solid fa-shop text-2xl'></i>{' '}
-          <span className='hover:underline'>Da de alta tu negocio</span>
+          <span className='hover:underline'>Suma tu negocio!</span>
         </p>
       </Link>
     </main>

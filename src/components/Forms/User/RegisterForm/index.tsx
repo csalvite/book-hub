@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Input } from '../../Input';
 import { Separador } from '@/components/Separador';
+import React from 'react';
 
 export const RegisterForm = ({
   title,

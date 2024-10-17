@@ -19,7 +19,8 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => (
     <RegisterForm
       title='Crea un negocio'
       business={true}
-      className='h-[40rem] py-8 sm:h-[50rem] w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
+      // h-[40rem] sm:h-[50rem]
+      className='h-[80vh] py-8 w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
       onClick={nextStep}
     />
     ;

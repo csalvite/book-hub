@@ -54,7 +54,7 @@ export const RegisterForm = ({
               label='Nombre del negocio'
               type='text'
               name='name'
-              value={formData['name']}
+              value={formData['name'] || ''}
               onChange={handleInputChange}
               placeholder='Introduce el nombre de tu negocio'
             />

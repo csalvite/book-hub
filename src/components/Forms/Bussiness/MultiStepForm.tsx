@@ -5,7 +5,10 @@ import { RegisterForm } from '@/components/Forms/User/RegisterForm';
 import { Address } from '../User/RegisterForm/Adress';
 import dynamic from 'next/dynamic';
 import { ToggleSwitch } from '../ToggleSwitch';
-import { EnterpriseFormData, IOpeningHours } from '@/types/enterprise-form';
+import {
+  EnterpriseFormData,
+  IOpeningHours,
+} from '@/interfaces/enterprise-form';
 
 // Importa el componente Map de manera dinámica y desactiva SSR
 const Mapa = dynamic(() => import('@/components/Maps/Mapa'), { ssr: false });

@@ -1,31 +1,108 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { RegisterForm } from '@/components/Forms/User/RegisterForm';
 import { Address } from '../User/RegisterForm/Adress';
 import dynamic from 'next/dynamic';
+import { ToggleSwitch } from '../ToggleSwitch';
+import { EnterpriseFormData, IOpeningHours } from '@/types/enterprise-form';
 
 // Importa el componente Map de manera dinámica y desactiva SSR
 const Mapa = dynamic(() => import('@/components/Maps/Mapa'), { ssr: false });
 
-const Step1 = ({ nextStep }: { nextStep: () => void }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ ease: 'easeOut', duration: 0.3 }}
-    exit={{ opacity: 0 }}
-    className='py-4 w-full h-full flex justify-center'
-  >
-    <RegisterForm
-      title='Crea un negocio'
-      business={true}
-      // h-[40rem] sm:h-[50rem]
-      className='h-[80vh] py-8 w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
-      onClick={nextStep}
-    />
-    ;
-  </motion.div>
-);
+const Step1 = ({
+  nextStep,
+  enterpriseData,
+  updateEnterpriseData,
+}: {
+  nextStep: () => void;
+  enterpriseData: Partial<EnterpriseFormData>;
+  updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
+}) => {
+  const [formData, setFormData] = useState({
+    name: enterpriseData.business?.name || '',
+    type: enterpriseData.business?.type || '',
+    password: enterpriseData.business?.password || '',
+    ownerName: enterpriseData.business?.owner.name || '',
+    ownerMail: enterpriseData.business?.owner.mail || '',
+    ownerPhone: enterpriseData.business?.owner.phone || '',
+    prefix: enterpriseData.business?.owner.prefix || '',
+  });
+
+  const handleInputChange = (
+    e?: React.ChangeEvent<HTMLInputElement>,
+    prefixName?: string,
+    prefixValue?: string
+  ) => {
+    let property: string;
+    let propValue: string;
+    if (e) {
+      const { name, value } = e.target;
+
+      property = name;
+      propValue = value;
+    } else {
+      property = prefixName || '';
+      propValue = prefixValue || '';
+    }
+
+    setFormData({
+      ...formData,
+      [property]: propValue,
+    });
+  };
+
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData({
+      business: {
+        name: formData.name,
+        type: '',
+        password: formData.password,
+        owner: {
+          name: formData.ownerName,
+          mail: formData.ownerMail,
+          phone: formData.ownerPhone,
+          prefix: formData.prefix,
+        },
+      },
+    });
+    nextStep();
+  };
+
+  useEffect(() => {
+    setFormData({
+      name: enterpriseData.business?.name || '',
+      type: enterpriseData.business?.type || '',
+      password: enterpriseData.business?.password || '',
+      ownerName: enterpriseData.business?.owner.name || '',
+      ownerMail: enterpriseData.business?.owner.mail || '',
+      ownerPhone: enterpriseData.business?.owner.phone || '',
+      prefix: enterpriseData.business?.owner.prefix || '',
+    });
+  }, [enterpriseData]);
+
+  console.log(formData);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: 'easeOut', duration: 0.3 }}
+      exit={{ opacity: 0 }}
+      className='py-4 w-full h-full flex justify-center'
+    >
+      <RegisterForm
+        title='Crea un negocio'
+        business={true}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        className='h-[80vh] py-8 w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
+        onClick={submitDataOnNextStep}
+      />
+      ;
+    </motion.div>
+  );
+};
 
 const Step2 = ({
   nextStep,
@@ -47,7 +124,6 @@ const Step2 = ({
       prevStep={prevStep}
       nextStep={nextStep}
     />
-    ;
   </motion.div>
 );
 
@@ -247,6 +323,16 @@ const Step5 = ({
   prevStep: () => void;
   nextStep: () => void;
 }) => {
+  const opening = [
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo',
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -267,7 +353,9 @@ const Step5 = ({
         </h2>
       </motion.div>
       <div className='w-full h-full py-4 flex flex-col items-center'>
-        <h3 className='my-8 text-xl'>Cosas</h3>
+        {opening.map((day) => (
+          <ToggleSwitch key={day} id={day} />
+        ))}
       </div>
       <div className='w-full flex gap-4'>
         <motion.button
@@ -308,13 +396,70 @@ const ProgressBar = ({ step }: { step: number }) => (
 
 export default function MultiStepForm() {
   const [step, setStep] = useState(1);
+  const [enterpriseData, setEnterpriseData] = useState<EnterpriseFormData>({
+    business: {
+      name: '',
+      type: '',
+      password: '',
+      owner: {
+        name: '',
+        mail: '',
+        phone: '',
+        prefix: '',
+      },
+    },
+    location: {
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+    },
+    openingHours: {
+      monday: '',
+      tuesday: '',
+      wednesday: '',
+      thursday: '',
+      friday: '',
+      saturday: '',
+      sunday: '',
+    },
+    services: [
+      {
+        name: '',
+        type: '',
+        description: '',
+        price: 0,
+        duration: 0,
+      },
+    ],
+    images: {
+      hero: '',
+      additionalImages: [],
+    },
+  });
 
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => prevStep - 1);
 
+  const updateEnterpriseData = (data: Partial<EnterpriseFormData>) => {
+    setEnterpriseData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+  };
+
   return (
     <div className='w-11/12 lg:w-8/12 xl:w-6/12 2xl:w-4/12 h-4/5 text-zinc-950 flex flex-col items-center mx-auto bg-white p-2 py-4 md:p-8 shadow-lg rounded-xl'>
-      {step === 1 && <Step1 nextStep={nextStep} />}
+      {step === 1 && (
+        <Step1
+          nextStep={nextStep}
+          enterpriseData={enterpriseData}
+          updateEnterpriseData={updateEnterpriseData}
+        />
+      )}
       {step === 2 && <Step2 nextStep={nextStep} prevStep={prevStep} />}
       {step === 3 && <Step3 prevStep={prevStep} nextStep={nextStep} />}
       {step === 4 && <Step4 prevStep={prevStep} nextStep={nextStep} />}

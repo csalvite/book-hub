@@ -1,19 +1,30 @@
 import { motion } from 'framer-motion';
 import { Input } from '../../Input';
 import { Separador } from '@/components/Separador';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const RegisterForm = ({
   title,
   business,
   className,
+  formData,
+  handleInputChange,
   onClick,
 }: {
   title: string;
   business: boolean;
   className: string;
+  formData: any;
+  handleInputChange: any;
   onClick: () => void;
 }) => {
+  const [prefix, setPrefix] = useState('+34');
+
+  useEffect(() => {
+    handleInputChange(null, 'prefix', prefix);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefix]);
+
   return (
     <section className={className}>
       <motion.div
@@ -42,19 +53,44 @@ export const RegisterForm = ({
             <Input
               label='Nombre del negocio'
               type='text'
+              name='name'
+              value={formData['name']}
+              onChange={handleInputChange}
               placeholder='Introduce el nombre de tu negocio'
             />
           )}
-          <Input label='Email' type='email' placeholder='Enter your email' />
+          <Input
+            label='Email'
+            type='email'
+            name='ownerMail'
+            value={formData['ownerMail']}
+            onChange={handleInputChange}
+            placeholder='Enter your email'
+          />
           <Input
             label='Nombre y apellidos'
             type='text'
+            name='ownerName'
+            value={formData['ownerName']}
+            onChange={handleInputChange}
             placeholder='Nombre y apellidos'
           />
-          <Input label='Contraseña' type='password' placeholder='Password' />
+          <Input
+            label='Contraseña'
+            type='password'
+            placeholder='Password'
+            value={formData['password']}
+            name='password'
+            onChange={handleInputChange}
+          />
           <Input
             label='Número de teléfono'
             type='telf'
+            name='ownerPhone'
+            value={formData['ownerPhone']}
+            onChange={handleInputChange}
+            prefix={formData['prefix']}
+            setPrefix={setPrefix}
             placeholder='Número de teléfono'
           />
           <motion.button

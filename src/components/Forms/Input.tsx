@@ -10,7 +10,9 @@ interface inputProps {
   valid?: boolean;
   invalid?: boolean;
   required?: boolean;
+  prefix?: string;
   setPrefix?: any;
+  onChange?: () => void;
 }
 
 export const Input = ({
@@ -21,13 +23,17 @@ export const Input = ({
   value,
   placeholder = '',
   valid,
+  prefix,
   setPrefix,
   invalid,
   required,
+  onChange,
 }: inputProps) => {
   return (
     <div className={`${className ? className : 'w-full'} flex items-end gap-6`}>
-      {type === 'telf' && <PrefixSelector setPrefix={setPrefix} />}
+      {type === 'telf' && (
+        <PrefixSelector prefix={prefix || '+34'} setPrefix={setPrefix} />
+      )}
       <div id='input' className='w-full flex flex-col'>
         <label htmlFor={name} className='text-gray-600 text-xs'>
           {label}
@@ -40,6 +46,7 @@ export const Input = ({
           value={value}
           placeholder={placeholder}
           required={required}
+          onChange={onChange}
         />
       </div>
     </div>

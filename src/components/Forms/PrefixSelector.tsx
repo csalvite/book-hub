@@ -15,8 +15,10 @@ type CountryData = {
 };
 
 export const PrefixSelector = ({
+  prefix,
   setPrefix,
 }: {
+  prefix: string;
   setPrefix: (prefix: string) => void;
 }) => {
   const [data, setData] = useState<CountryData[]>([]); // Definir el tipo del estado
@@ -49,9 +51,15 @@ export const PrefixSelector = ({
             });
 
             setData(sortedData); // Guardar el contenido ordenado en el estado
-            setSelection(sortedData[0]);
-            if (setPrefix) {
-              setPrefix(`+${sortedData[0].phone_code}`);
+            if (prefix) {
+              setSelection(
+                sortedData.filter(
+                  (data) =>
+                    data.phone_code === prefix.substring(1, prefix.length)
+                )[0]
+              );
+            } else {
+              setSelection(sortedData[0]);
             }
           },
         });
@@ -102,8 +110,8 @@ export const PrefixSelector = ({
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className='h-64 w-24 border absolute overflow-y-scroll custom-scrollbar bg-white'
+            transition={{ duration: 0.3 }}
+            className='h-64 w-24 z-10 border absolute overflow-y-scroll custom-scrollbar bg-white'
           >
             {data?.map((country) => {
               return (

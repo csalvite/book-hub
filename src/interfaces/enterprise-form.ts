@@ -12,6 +12,7 @@ export interface EnterpriseFormData {
   };
   location: {
     address: string;
+    addressNum: string;
     city: string;
     state: string;
     zipCode: string;

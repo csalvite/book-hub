@@ -84,8 +84,6 @@ const Step1 = ({
     });
   }, [enterpriseData]);
 
-  console.log(formData);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -108,78 +106,167 @@ const Step1 = ({
 };
 
 const Step2 = ({
+  enterpriseData,
+  updateEnterpriseData,
   nextStep,
   prevStep,
 }: {
+  enterpriseData: Partial<EnterpriseFormData>;
+  updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ ease: 'easeOut', duration: 0.3 }}
-    className='py-4 w-full h-full flex justify-center'
-  >
-    <Address
-      title='Dirección'
-      business={true}
-      prevStep={prevStep}
-      nextStep={nextStep}
-    />
-  </motion.div>
-);
+}) => {
+  const [formData, setFormData] = useState({
+    address: enterpriseData.location?.address || '',
+    addressNum: enterpriseData.location?.addressNum || '',
+    city: enterpriseData.location?.city || '',
+    state: enterpriseData.location?.state || '',
+    zipCode: enterpriseData.location?.zipCode || '',
+    country: enterpriseData.location?.country || '',
+  });
 
-const Step3 = ({
-  prevStep,
-  nextStep,
-}: {
-  prevStep: () => void;
-  nextStep: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ ease: 'easeOut', duration: 0.3 }}
-    className='py-4 w-full h-full flex flex-col justify-center items-center'
-  >
+  const handleInputChange = (
+    e?: React.ChangeEvent<HTMLInputElement>,
+    prefixName?: string,
+    prefixValue?: string
+  ) => {
+    let property: string;
+    let propValue: string;
+    if (e) {
+      const { name, value } = e.target;
+
+      property = name;
+      propValue = value;
+    } else {
+      property = prefixName || '';
+      propValue = prefixValue || '';
+    }
+
+    setFormData({
+      ...formData,
+      [property]: propValue,
+    });
+  };
+
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData({
+      location: {
+        address: formData.address,
+        addressNum: formData.addressNum,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        country: formData.country,
+        latitude: 0,
+        longitude: 0,
+      },
+    });
+    nextStep();
+  };
+
+  useEffect(() => {
+    setFormData({
+      address: enterpriseData.location?.address || '',
+      addressNum: enterpriseData.location?.addressNum || '',
+      city: enterpriseData.location?.city || '',
+      state: enterpriseData.location?.state || '',
+      zipCode: enterpriseData.location?.zipCode || '',
+      country: enterpriseData.location?.country || '',
+    });
+  }, [enterpriseData]);
+
+  console.log(formData);
+
+  return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ ease: 'easeOut', duration: 0.3 }}
-      className='cn-w-full flex flex-col items-center'
+      className='py-4 w-full h-full flex justify-center'
     >
-      <h1 className='text-3xl mb-2'>Tu Dirección</h1>
-      <h2 className='text-xs text-center'>Es esta tu dirección?</h2>
+      <Address
+        title='Dirección'
+        business={true}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        prevStep={prevStep}
+        nextStep={nextStep}
+        onClick={submitDataOnNextStep}
+      />
     </motion.div>
-    <div className='w-full h-full py-4'>
-      <Mapa location={'Noia'} />
-    </div>
-    <p className='text-xs text-zinc-500'>
-      Puedes modificar tu dirección exacta en este mapa
-    </p>
-    <div className='w-full flex gap-4'>
-      <motion.button
-        className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
-        whileHover={{ scale: [null, 1.1, 1.05] }}
-        transition={{ duration: 0.3 }}
-        onClick={() => prevStep()}
-      >
-        Atrás
-      </motion.button>
+  );
+};
 
-      <motion.button
-        className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
-        whileHover={{ scale: [null, 1.1, 1.05] }}
-        transition={{ duration: 0.3 }}
-        onClick={() => nextStep()}
+const Step3 = ({
+  enterpriseData,
+  updateEnterpriseData,
+  prevStep,
+  nextStep,
+}: {
+  enterpriseData: Partial<EnterpriseFormData>;
+  updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+}) => {
+  const [formData, setFormData] = useState({
+    latitude: enterpriseData?.location?.latitude || '',
+    longitude: enterpriseData?.location?.longitude || '',
+  });
+
+  const [direction, setDirection] = useState('');
+
+  useEffect(() => {
+    setDirection(
+      `${enterpriseData?.location?.zipCode}, ${enterpriseData?.location?.city}, ${enterpriseData?.location?.country}`
+    );
+  }, [enterpriseData?.location]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: 'easeOut', duration: 0.3 }}
+      className='py-4 w-full h-full flex flex-col justify-center items-center'
+    >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ ease: 'easeOut', duration: 0.3 }}
+        className='cn-w-full flex flex-col items-center'
       >
-        Continuar
-      </motion.button>
-    </div>
-  </motion.div>
-);
+        <h1 className='text-3xl mb-2'>Tu Dirección</h1>
+        <h2 className='text-xs text-center'>Es esta tu dirección?</h2>
+      </motion.div>
+      <div className='w-full h-full py-4'>
+        <Mapa location={direction} />
+      </div>
+      <p className='text-xs text-zinc-500'>
+        Puedes modificar tu dirección exacta en este mapa
+      </p>
+      <div className='w-full flex gap-4'>
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-white text-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => prevStep()}
+        >
+          Atrás
+        </motion.button>
+
+        <motion.button
+          className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
+          whileHover={{ scale: [null, 1.1, 1.05] }}
+          transition={{ duration: 0.3 }}
+          onClick={() => nextStep()}
+        >
+          Continuar
+        </motion.button>
+      </div>
+    </motion.div>
+  );
+};
 
 const Step4 = ({
   prevStep,
@@ -413,6 +500,7 @@ export default function MultiStepForm() {
     },
     location: {
       address: '',
+      addressNum: '',
       city: '',
       state: '',
       zipCode: '',
@@ -463,8 +551,22 @@ export default function MultiStepForm() {
           updateEnterpriseData={updateEnterpriseData}
         />
       )}
-      {step === 2 && <Step2 nextStep={nextStep} prevStep={prevStep} />}
-      {step === 3 && <Step3 prevStep={prevStep} nextStep={nextStep} />}
+      {step === 2 && (
+        <Step2
+          enterpriseData={enterpriseData}
+          updateEnterpriseData={updateEnterpriseData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      )}
+      {step === 3 && (
+        <Step3
+          enterpriseData={enterpriseData}
+          updateEnterpriseData={updateEnterpriseData}
+          prevStep={prevStep}
+          nextStep={nextStep}
+        />
+      )}
       {step === 4 && <Step4 prevStep={prevStep} nextStep={nextStep} />}
       {step === 5 && <Step5 prevStep={prevStep} nextStep={nextStep} />}
       <ProgressBar step={step} />

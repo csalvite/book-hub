@@ -10,16 +10,7 @@ export interface EnterpriseFormData {
       prefix?: string;
     };
   };
-  location: {
-    address: string;
-    addressNum: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-  };
+  location: IEnterpriseLocation;
   openingHours: IOpeningHours;
   services: [
     {
@@ -34,6 +25,17 @@ export interface EnterpriseFormData {
     hero: string;
     additionalImages: string[];
   };
+}
+
+export interface IEnterpriseLocation {
+  address?: string;
+  addressNum?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IOpeningHours {

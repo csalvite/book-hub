@@ -58,6 +58,10 @@ const Step3 = ({
       >
         <h1 className='text-3xl mb-2'>Tu Dirección</h1>
         <h2 className='text-xs text-center'>Es esta tu dirección?</h2>
+        <p>
+          Puedes hacer click o mover el marcador al lugar exacto donde se
+          encuentre tu negocio
+        </p>
       </motion.div>
       <div className='w-full h-full py-4'>
         <Mapa location={direction} setFormData={setFormData} />

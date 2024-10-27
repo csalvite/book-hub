@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang='es'>
       <body>
         <main
-          className={`min-w-full min-h-screen flex items-center justify-center bg-[url('/images/background.webp')] bg-cover bg-center`}
+          className={`min-w-full h-dvh flex items-center justify-center bg-[url('/images/background.webp')] bg-cover bg-center`}
         >
           {children}
         </main>

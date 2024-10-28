@@ -12,7 +12,7 @@ interface inputProps {
   required?: boolean;
   prefix?: string;
   setPrefix?: any;
-  onChange?: () => void;
+  onChange?: any;
 }
 
 export const Input = ({

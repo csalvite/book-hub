@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Script from 'next/script';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'BookHub',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='es'>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
       <Script
         src='https://kit.fontawesome.com/73ad37a527.js'
         crossOrigin='anonymous'

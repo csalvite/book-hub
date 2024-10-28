@@ -1,7 +1,17 @@
 'use client';
 import { motion } from 'framer-motion';
+import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { EnterpriseFormData } from '@/interfaces/enterprise-form';
+import { Input } from '../../Input';
+import Loader from '@/components/Loader';
+import { fetchApiPrueba } from '@/app/lib/data';
+import { Button } from '@nextui-org/button';
+
+interface IBussinesType {
+  id: number;
+  name: string;
+}
 
 const Step4 = ({
   prevStep,
@@ -14,6 +24,34 @@ const Step4 = ({
   enterpriseData: Partial<EnterpriseFormData>;
   updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
 }) => {
+  const [type, setType] = useState('');
+  const [typeOptions, setTypesOptions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [businessType, setBusinessType] = useState<IBussinesType[]>([]);
+
+  const fetchBusinessType = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchApiPrueba(type);
+
+      console.log('respuesta: ', response);
+      setTypesOptions(response);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearchBusinessType = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = event.target;
+    setType(value);
+  };
+
+  console.log('businessTypes: ', businessType);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -32,95 +70,71 @@ const Step4 = ({
         <h2 className='text-xs text-center'>Cuentanos más sobre tu negocio</h2>
       </motion.div>
       <div className='w-full h-full py-4 flex flex-col items-center'>
-        <h3 className='my-8 text-xl'>
-          Cuáles son los servicios que ofrece tu negocio?
-        </h3>
-        {/* aqui mapeo del get de servicios */}
+        <h3 className='my-8 text-xl'>Busca tu tipo de negocio</h3>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 cursor-pointer'
         >
-          <input
-            id='estetica'
-            type='checkbox'
-            className=''
-            name='estetica'
-            value={'Estética'}
+          <Input
+            name='businessType'
+            type='search'
+            value={type}
+            onChange={handleSearchBusinessType}
           />
-          <label htmlFor='estetica' className='text-lg'>
-            Estética
-          </label>
+
+          <Button onClick={() => fetchBusinessType()} className='bg-slate-200'>
+            <i className='fa-solid fa-magnifying-glass'></i>
+          </Button>
         </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
-        >
-          <input
-            id='fisioterapia'
-            type='checkbox'
-            className=''
-            name='estetica'
-            value={'Fisioterapia'}
-          />
-          <label htmlFor='fisioterapia' className='text-lg'>
-            Fisioterapia
-          </label>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
-        >
-          <input
-            id='restaurante'
-            type='checkbox'
-            className=''
-            name='estetica'
-            value={'Restaurante'}
-          />
-          <label htmlFor='restaurante' className='text-lg'>
-            Restaurante
-          </label>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
-        >
-          <input
-            id='cafeteria'
-            type='checkbox'
-            className=''
-            name='estetica'
-            value={'Cafetería'}
-          />
-          <label htmlFor='cafeteria' className='text-lg'>
-            Cafetería
-          </label>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
-        >
-          <input
-            id='deportes'
-            type='checkbox'
-            className=''
-            name='estetica'
-            value={'Deportes'}
-          />
-          <label htmlFor='deportes' className='text-lg'>
-            Deportes
-          </label>
-        </motion.div>
+
+        {loading && (
+          <div className='p-4'>
+            <Loader className='w-12 h-12' />
+          </div>
+        )}
+
+        {typeOptions.length > 0 && (
+          <div className='w-full h-96 py-4 flex flex-col items-center overflow-y-scroll'>
+            {typeOptions?.map((option) => {
+              return (
+                <motion.div
+                  key={option.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ ease: 'easeOut', duration: 0.3 }}
+                  onClick={() => {
+                    setBusinessType((prevBusinessType) =>
+                      prevBusinessType.some((item) => item.id === option.id)
+                        ? prevBusinessType
+                        : [...prevBusinessType, option]
+                    );
+                  }}
+                  className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
+                >
+                  <input
+                    id={option.name}
+                    type='checkbox'
+                    className=''
+                    name={option.name}
+                    value={option.name}
+                    onChange={() => {}}
+                    checked={
+                      businessType.filter((type) => type.id === option.id)
+                        .length > 0
+                        ? true
+                        : false
+                    }
+                  />
+                  <label htmlFor={option.name} className='text-lg'>
+                    {option.name}
+                  </label>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
       </div>
       <div className='w-full flex gap-4'>
         <motion.button

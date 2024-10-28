@@ -82,7 +82,7 @@ export default function MultiStepForm() {
   console.log('enterpriseData: ', enterpriseData);
 
   return (
-    <div className='w-11/12 lg:w-8/12 xl:w-6/12 2xl:w-4/12 h-4/5 text-zinc-950 flex flex-col items-center mx-auto bg-white p-2 py-4 md:p-8 shadow-lg rounded-xl'>
+    <section className='w-11/12 lg:w-8/12 xl:w-6/12 2xl:w-4/12 h-[90dvh] md:h-4/5 text-zinc-950 flex flex-col items-center mx-auto bg-white p-2 py-4 md:p-8 shadow-lg rounded-xl'>
       {step === 1 && (
         <Step1
           nextStep={nextStep}
@@ -123,6 +123,6 @@ export default function MultiStepForm() {
         />
       )}
       <ProgressBar step={step} />
-    </div>
+    </section>
   );
 }

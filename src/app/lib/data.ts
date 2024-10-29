@@ -1,7 +1,11 @@
+'use server';
+
+const { BOOKHUB_API } = process.env;
+
 export async function fetchApiPrueba(search: string) {
   try {
     // Usa la URL relativa que pasará a través del proxy
-    const url = `/api/business/type?search=${search}`;
+    const url = `${BOOKHUB_API}/business/type?search=${search}`;
     const options = {
       method: 'GET',
       headers: {

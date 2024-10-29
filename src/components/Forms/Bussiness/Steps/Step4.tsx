@@ -89,51 +89,56 @@ const Step4 = ({
           </Button>
         </motion.div>
 
-        {loading && (
+        {loading ? (
           <div className='p-4'>
             <Loader className='w-12 h-12' />
           </div>
-        )}
-
-        {typeOptions.length > 0 && (
-          <div className='w-full h-96 py-4 flex flex-col items-center overflow-y-scroll'>
-            {typeOptions?.map((option) => {
-              return (
-                <motion.div
-                  key={option.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ ease: 'easeOut', duration: 0.3 }}
-                  onClick={() => {
-                    setBusinessType((prevBusinessType) =>
-                      prevBusinessType.some((item) => item.id === option.id)
-                        ? prevBusinessType
-                        : [...prevBusinessType, option]
-                    );
-                  }}
-                  className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
-                >
-                  <input
-                    id={option.name}
-                    type='checkbox'
-                    className=''
-                    name={option.name}
-                    value={option.name}
-                    onChange={() => {}}
-                    checked={
+        ) : (
+          typeOptions.length > 0 && (
+            <div className='w-full h-96 py-4 flex flex-col items-center overflow-y-scroll'>
+              {typeOptions?.map((option) => {
+                return (
+                  <motion.div
+                    key={option.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ ease: 'easeOut', duration: 0.3 }}
+                    onClick={() => {
+                      setBusinessType((prevBusinessType) =>
+                        prevBusinessType.some((item) => item.id === option.id)
+                          ? prevBusinessType
+                          : [...prevBusinessType, option]
+                      );
+                    }}
+                    className={`w-8/12 flex items-center justify-start gap-4 border p-4 mt-4 hover:border-black cursor-pointer ${
                       businessType.filter((type) => type.id === option.id)
                         .length > 0
-                        ? true
-                        : false
-                    }
-                  />
-                  <label htmlFor={option.name} className='text-lg'>
-                    {option.name}
-                  </label>
-                </motion.div>
-              );
-            })}
-          </div>
+                        ? 'border-black'
+                        : ''
+                    }`}
+                  >
+                    <input
+                      id={option.name}
+                      type='checkbox'
+                      className=''
+                      name={option.name}
+                      value={option.name}
+                      onChange={() => {}}
+                      checked={
+                        businessType.filter((type) => type.id === option.id)
+                          .length > 0
+                          ? true
+                          : false
+                      }
+                    />
+                    <label htmlFor={option.name} className='text-lg'>
+                      {option.name}
+                    </label>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )
         )}
       </div>
       <div className='w-full flex gap-4'>

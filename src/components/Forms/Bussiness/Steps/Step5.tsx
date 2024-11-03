@@ -1,8 +1,12 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { EnterpriseFormData } from '@/interfaces/enterprise-form';
-import { ToggleSwitch } from '../../ToggleSwitch';
+import {
+  EnterpriseFormData,
+  IOpeningHoursSchedule,
+} from '@/interfaces/enterprise-form';
+import { Schedules } from '../../Schedules';
+import type { TimeValue } from '@react-types/datepicker';
 
 const Step5 = ({
   prevStep,
@@ -15,15 +19,54 @@ const Step5 = ({
   enterpriseData: Partial<EnterpriseFormData>;
   updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
 }) => {
-  const opening = [
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-    'Domingo',
-  ];
+  const [schedule, setSchedule] = useState<IOpeningHoursSchedule>({
+    monday: {
+      day: 'Lunes',
+      schedule: '',
+    },
+    tuesday: {
+      day: 'Martes',
+      schedule: '',
+    },
+    wednesday: {
+      day: 'Miércoles',
+      schedule: '',
+    },
+    thursday: {
+      day: 'Jueves',
+      schedule: '',
+    },
+    friday: {
+      day: 'Viernes',
+      schedule: '',
+    },
+    saturday: {
+      day: 'Sábado',
+      schedule: '',
+    },
+    sunday: {
+      day: 'Domingo',
+      schedule: '',
+    },
+  });
+
+  const handleChangeDaySchedule = (id: string, value: TimeValue) => {
+    console.log('id: ', id);
+    console.log('value: ', value);
+    const { hour, minute } = value;
+
+    setSchedule((prevData) => {
+      return {
+        ...prevData,
+        [id]: {
+          ...prevData[id],
+          schedule: `${prevData[id].schedule}-${hour}:${minute}`,
+        },
+      };
+    });
+  };
+
+  console.log('schedules: ', schedule);
 
   return (
     <motion.div
@@ -44,9 +87,15 @@ const Step5 = ({
           Indica el horario en el que podemos encargar tus servicios
         </h2>
       </motion.div>
-      <div className='w-full h-full py-4 flex flex-col items-center'>
-        {opening.map((day) => (
-          <ToggleSwitch key={day} id={day} />
+      <div className='w-full h-[40rem] py-4 flex flex-col items-center overflow-y-scroll'>
+        {/* {Object.values(schedule).map((day) => ( */}
+        {Object.entries(schedule).map(([key, value]) => (
+          <Schedules
+            key={key}
+            id={key}
+            value={value}
+            onChange={handleChangeDaySchedule}
+          />
         ))}
       </div>
       <div className='w-full flex gap-4'>

@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { EnterpriseFormData } from '@/interfaces/enterprise-form';
+import {
+  EnterpriseFormData,
+  IBussinesType,
+} from '@/interfaces/enterprise-form';
 import Step1 from './Steps/Step1';
 import Step2 from './Steps/Step2';
 import Step3 from './Steps/Step3';
@@ -26,7 +29,7 @@ export default function MultiStepForm() {
   const [enterpriseData, setEnterpriseData] = useState<EnterpriseFormData>({
     business: {
       name: '',
-      type: '',
+      type: 0,
       password: '',
       owner: {
         name: '',
@@ -79,6 +82,16 @@ export default function MultiStepForm() {
     }));
   };
 
+  const updateEnterpriseDataType = (type: number) => {
+    setEnterpriseData({
+      ...enterpriseData,
+      business: {
+        ...enterpriseData.business,
+        type: type,
+      },
+    });
+  };
+
   console.log('enterpriseData: ', enterpriseData);
 
   return (
@@ -109,7 +122,7 @@ export default function MultiStepForm() {
       {step === 4 && (
         <Step4
           enterpriseData={enterpriseData}
-          updateEnterpriseData={updateEnterpriseData}
+          updateEnterpriseData={updateEnterpriseDataType}
           prevStep={prevStep}
           nextStep={nextStep}
         />

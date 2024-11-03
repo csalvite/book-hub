@@ -53,7 +53,10 @@ const Step1 = ({
     updateEnterpriseData({
       business: {
         name: formData.name,
-        type: '',
+        type: {
+          id: 0,
+          name: '',
+        },
         password: formData.password,
         owner: {
           name: formData.ownerName,

@@ -2,16 +2,14 @@
 import { motion } from 'framer-motion';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
-import { EnterpriseFormData } from '@/interfaces/enterprise-form';
+import {
+  EnterpriseFormData,
+  IBussinesType,
+} from '@/interfaces/enterprise-form';
 import { Input } from '../../Input';
 import Loader from '@/components/Loader';
 import { fetchApiPrueba } from '@/app/lib/data';
 import { Button } from '@nextui-org/button';
-
-interface IBussinesType {
-  id: number;
-  name: string;
-}
 
 const Step4 = ({
   prevStep,
@@ -22,19 +20,20 @@ const Step4 = ({
   prevStep: () => void;
   nextStep: () => void;
   enterpriseData: Partial<EnterpriseFormData>;
-  updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
+  updateEnterpriseData: (type: number) => void;
 }) => {
   const [type, setType] = useState('');
-  const [typeOptions, setTypesOptions] = useState<any[]>([]);
+  const [typeOptions, setTypesOptions] = useState<IBussinesType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [businessType, setBusinessType] = useState<IBussinesType[]>([]);
+  const [businessType, setBusinessType] = useState<IBussinesType>({
+    id: 0,
+    name: '',
+  });
 
   const fetchBusinessType = async () => {
     setLoading(true);
     try {
       const response = await fetchApiPrueba(type);
-
-      console.log('respuesta: ', response);
       setTypesOptions(response);
     } catch (error) {
       console.error(error);
@@ -50,7 +49,17 @@ const Step4 = ({
     setType(value);
   };
 
-  console.log('businessTypes: ', businessType);
+  const handleChangeBusinessType = (option: IBussinesType) => {
+    setBusinessType({
+      id: option.id,
+      name: option.name,
+    });
+  };
+
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData(businessType.id);
+    nextStep();
+  };
 
   return (
     <motion.div
@@ -103,18 +112,9 @@ const Step4 = ({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ ease: 'easeOut', duration: 0.3 }}
-                    onClick={() => {
-                      setBusinessType((prevBusinessType) =>
-                        prevBusinessType.some((item) => item.id === option.id)
-                          ? prevBusinessType
-                          : [...prevBusinessType, option]
-                      );
-                    }}
+                    onClick={() => handleChangeBusinessType(option)}
                     className={`w-8/12 flex items-center justify-start gap-4 border p-4 mt-4 hover:border-black cursor-pointer ${
-                      businessType.filter((type) => type.id === option.id)
-                        .length > 0
-                        ? 'border-black'
-                        : ''
+                      businessType?.id === option.id ? 'border-black' : ''
                     }`}
                   >
                     <input
@@ -124,12 +124,7 @@ const Step4 = ({
                       name={option.name}
                       value={option.name}
                       onChange={() => {}}
-                      checked={
-                        businessType.filter((type) => type.id === option.id)
-                          .length > 0
-                          ? true
-                          : false
-                      }
+                      checked={businessType?.id === option.id ? true : false}
                     />
                     <label htmlFor={option.name} className='text-lg'>
                       {option.name}
@@ -155,7 +150,7 @@ const Step4 = ({
           className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
           whileHover={{ scale: [null, 1.1, 1.05] }}
           transition={{ duration: 0.3 }}
-          onClick={() => nextStep()}
+          onClick={() => submitDataOnNextStep()}
         >
           Continuar
         </motion.button>

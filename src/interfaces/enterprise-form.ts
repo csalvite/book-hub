@@ -1,7 +1,7 @@
 export interface EnterpriseFormData {
   business: {
     name: string;
-    type: string;
+    type: number;
     password: string;
     owner: {
       name: string;
@@ -46,4 +46,16 @@ export interface IOpeningHours {
   friday: string;
   saturday: string;
   sunday: string;
+}
+
+export interface IBussinesType {
+  id: number;
+  name: string;
+}
+
+export interface IOpeningHoursSchedule {
+  [key: string]: {
+    day: string;
+    schedule: string;
+  };
 }

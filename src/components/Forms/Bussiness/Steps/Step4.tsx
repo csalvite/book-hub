@@ -8,7 +8,7 @@ import {
 } from '@/interfaces/enterprise-form';
 import { Input } from '../../Input';
 import Loader from '@/components/Loader';
-import { fetchApiPrueba } from '@/app/lib/data';
+import { getBusinessTypes } from '@/app/lib/data';
 import { Button } from '@nextui-org/button';
 
 const Step4 = ({
@@ -29,11 +29,14 @@ const Step4 = ({
     id: 0,
     name: '',
   });
+  const [error, setError] = useState(false);
 
   const fetchBusinessType = async () => {
+    setError(false);
     setLoading(true);
     try {
-      const response = await fetchApiPrueba(type);
+      const response: IBussinesType[] = await getBusinessTypes(type);
+      if (response.length < 1) setError(true);
       setTypesOptions(response);
     } catch (error) {
       console.error(error);
@@ -135,6 +138,7 @@ const Step4 = ({
             </div>
           )
         )}
+        {error && <span>No se han encontrado resultados</span>}
       </div>
       <div className='w-full flex gap-4'>
         <motion.button

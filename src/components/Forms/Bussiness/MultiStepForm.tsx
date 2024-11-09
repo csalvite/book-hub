@@ -9,6 +9,7 @@ import Step2 from './Steps/Step2';
 import Step3 from './Steps/Step3';
 import Step4 from './Steps/Step4';
 import Step5 from './Steps/Step5';
+import Step6 from './Steps/Step6';
 
 const ProgressBar = ({ step }: { step: number }) => (
   <div className='flex justify-center items-center space-x-4'>
@@ -136,9 +137,9 @@ export default function MultiStepForm() {
         />
       )}
       {step === 6 && (
-        <Step5
+        <Step6
           enterpriseData={enterpriseData}
-          updateEnterpriseData={updateEnterpriseData}
+          // updateEnterpriseData={updateEnterpriseData}
           prevStep={prevStep}
           nextStep={nextStep}
         />

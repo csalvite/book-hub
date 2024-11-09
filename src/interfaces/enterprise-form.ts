@@ -53,6 +53,16 @@ export interface IBussinesType {
   name: string;
 }
 
+export interface IBussinesType {
+  id: number;
+  name: string;
+}
+
+export interface IServicesRecommended {
+  id: number;
+  name: string;
+}
+
 export interface IOpeningHoursSchedule {
   [key: string]: {
     day: string;

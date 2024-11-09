@@ -62,7 +62,20 @@ const Step5 = ({
     });
   };
 
-  console.log('schedules: ', schedule);
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData({
+      openingHours: {
+        monday: schedule.monday.schedule,
+        tuesday: schedule.tuesday.schedule,
+        wednesday: schedule.wednesday.schedule,
+        thursday: schedule.thursday.schedule,
+        friday: schedule.friday.schedule,
+        saturday: schedule.saturday.schedule,
+        sunday: schedule.sunday.schedule,
+      },
+    });
+    nextStep();
+  };
 
   return (
     <motion.div
@@ -108,7 +121,7 @@ const Step5 = ({
           className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
           whileHover={{ scale: [null, 1.1, 1.05] }}
           transition={{ duration: 0.3 }}
-          onClick={() => nextStep()}
+          onClick={submitDataOnNextStep}
         >
           Continuar
         </motion.button>

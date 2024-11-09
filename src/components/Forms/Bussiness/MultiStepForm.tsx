@@ -12,7 +12,7 @@ import Step5 from './Steps/Step5';
 
 const ProgressBar = ({ step }: { step: number }) => (
   <div className='flex justify-center items-center space-x-4'>
-    {[1, 2, 3, 4, 5].map((num) => (
+    {[1, 2, 3, 4, 5, 6].map((num) => (
       <div key={num} className='flex flex-col items-center'>
         <div
           className={`w-4 h-4 rounded-full flex items-center justify-center ${
@@ -128,6 +128,14 @@ export default function MultiStepForm() {
         />
       )}
       {step === 5 && (
+        <Step5
+          enterpriseData={enterpriseData}
+          updateEnterpriseData={updateEnterpriseData}
+          prevStep={prevStep}
+          nextStep={nextStep}
+        />
+      )}
+      {step === 6 && (
         <Step5
           enterpriseData={enterpriseData}
           updateEnterpriseData={updateEnterpriseData}

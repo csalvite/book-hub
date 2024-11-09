@@ -50,17 +50,13 @@ const Step5 = ({
     },
   });
 
-  const handleChangeDaySchedule = (id: string, value: TimeValue) => {
-    console.log('id: ', id);
-    console.log('value: ', value);
-    const { hour, minute } = value;
-
+  const handleChangeDaySchedule = (id: string, value: string) => {
     setSchedule((prevData) => {
       return {
         ...prevData,
         [id]: {
           ...prevData[id],
-          schedule: `${prevData[id].schedule}-${hour}:${minute}`,
+          schedule: value,
         },
       };
     });

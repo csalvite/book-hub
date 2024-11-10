@@ -25,6 +25,7 @@ const Step4 = ({
   const [type, setType] = useState('');
   const [typeOptions, setTypesOptions] = useState<IBussinesType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState(false);
   const [businessType, setBusinessType] = useState<IBussinesType>({
     id: 0,
     name: '',
@@ -33,6 +34,7 @@ const Step4 = ({
 
   const fetchBusinessType = async () => {
     setError(false);
+    setInvalid(false);
     setLoading(true);
     try {
       const response: IBussinesType[] = await getBusinessTypes(type);
@@ -49,6 +51,7 @@ const Step4 = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = event.target;
+    setInvalid(false);
     setType(value);
   };
 
@@ -60,6 +63,10 @@ const Step4 = ({
   };
 
   const submitDataOnNextStep = () => {
+    if (!businessType.id) {
+      setInvalid(true);
+      return;
+    }
     updateEnterpriseData(businessType.id);
     nextStep();
   };
@@ -89,7 +96,10 @@ const Step4 = ({
           transition={{ ease: 'easeOut', duration: 0.3 }}
           className='relative w-full flex flex-col items-center justify-center border p-4 mb-2 cursor-pointer'
         >
-          <label htmlFor='searchBusiness' className='text-sm'>
+          <label
+            htmlFor='searchBusiness'
+            className='text-sm block flex flex-col items-center justify-center'
+          >
             <Tooltip
               showArrow={true}
               content='Selecciona solo un tipo'
@@ -108,6 +118,11 @@ const Step4 = ({
                 ></i>
               </Button>
             </Tooltip>
+            {invalid && (
+              <span className='text-red-400 text-sm'>
+                Debes seleccionar un tipo de negocio para continuar
+              </span>
+            )}
           </label>
           <div className='w-full lg:w-8/12 flex items-center justify-center gap-4 cursor-pointer'>
             <Input

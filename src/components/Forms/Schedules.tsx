@@ -1,6 +1,6 @@
 import { TimeInput } from '@nextui-org/date-input';
 import { useEffect, useState } from 'react';
-import { Button, Divider } from '@nextui-org/react';
+import { Button, Divider, Switch } from '@nextui-org/react';
 import { ToggleSwitch } from './ToggleSwitch';
 import type { TimeValue } from '@react-types/datepicker';
 import { addLeadingZero } from '@/utils/dates';
@@ -55,7 +55,15 @@ export const Schedules = ({ id, value, onChange }: IToggleSwitch) => {
 
   return (
     <div className='w-4/5 py-2 flex gap-4 items-center justify-start'>
-      <ToggleSwitch id={value.day} checked={checked} setChecked={setChecked} />
+      {/* <ToggleSwitch id={value.day} checked={checked} setChecked={setChecked} /> */}
+      <Switch
+        color='success'
+        className='flex flex-col-reverse items-center justify-center'
+        checked={checked}
+        onChange={() => setChecked(!checked)}
+      >
+        <span className='text-sm'>{value.day}</span>
+      </Switch>
 
       <div id={value.day} className='w-full flex gap-4 items-center flex-wrap'>
         <TimeInput

@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { debounce } from 'lodash';
+import { Tooltip } from '@nextui-org/tooltip';
 import { useEffect, useState } from 'react';
 import {
   EnterpriseFormData,
@@ -82,23 +82,49 @@ const Step4 = ({
         <h2 className='text-xs text-center'>Cuentanos más sobre tu negocio</h2>
       </motion.div>
       <div className='w-full h-full py-4 flex flex-col items-center'>
-        <h3 className='my-8 text-xl'>Busca tu tipo de negocio</h3>
+        {/* <h3 className='my-8 text-xl'>Busca tu tipo de negocio</h3> */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ease: 'easeOut', duration: 0.3 }}
-          className='w-8/12 flex items-center justify-center gap-4 border p-4 mt-4 cursor-pointer'
+          className='relative w-full flex flex-col items-center justify-center border p-4 mb-2 cursor-pointer'
         >
-          <Input
-            name='businessType'
-            type='search'
-            value={type}
-            onChange={handleSearchBusinessType}
-          />
+          <label htmlFor='searchBusiness' className='text-sm'>
+            <Tooltip
+              showArrow={true}
+              content='Selecciona solo un tipo'
+              className='text-slate-900'
+              // color='secondary'
+            >
+              <Button className='bg-transparent'>
+                Busca tu tipo de negocio{' '}
+                <i
+                  className='fa-solid fa-info w-8 h-8 bg-slate-300 rounded-full'
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                ></i>
+              </Button>
+            </Tooltip>
+          </label>
+          <div className='w-full lg:w-8/12 flex items-center justify-center gap-4 cursor-pointer'>
+            <Input
+              id='searchBusiness'
+              name='businessType'
+              type='search'
+              value={type}
+              onChange={handleSearchBusinessType}
+            />
 
-          <Button onClick={() => fetchBusinessType()} className='bg-slate-200'>
-            <i className='fa-solid fa-magnifying-glass'></i>
-          </Button>
+            <Button
+              onClick={() => fetchBusinessType()}
+              className='bg-slate-200'
+            >
+              <i className='fa-solid fa-magnifying-glass'></i>
+            </Button>
+          </div>
         </motion.div>
 
         {loading ? (

@@ -34,9 +34,11 @@ const ChangeMapView = ({ position }: { position: [number, number] }) => {
 const Mapa = ({
   location,
   setFormData,
+  enterpriseData,
 }: {
   location: string;
   setFormData: any;
+  enterpriseData: any;
 }) => {
   const [position, setPosition] = useState<[number, number]>([51.505, -0.09]);
   const [loading, setLoading] = useState(true);
@@ -73,21 +75,31 @@ const Mapa = ({
   };
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
-      if (confirm('Permitir que bookhub acceda a tu ubicación:')) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
+    if (
+      !enterpriseData?.location?.latitude &&
+      !enterpriseData?.location?.longitude
+    ) {
+      if ('geolocation' in navigator) {
+        if (confirm('Permitir que bookhub acceda a tu ubicación:')) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
 
-          setPosition([latitude, longitude]);
-        });
+            setPosition([latitude, longitude]);
+          });
+        }
+      } else {
+        if (location) {
+          fetchCoordinates(location);
+        }
       }
     } else {
-      if (location) {
-        fetchCoordinates(location);
-      }
+      setPosition([
+        enterpriseData?.location?.latitude,
+        enterpriseData?.location?.longitude,
+      ]);
     }
     setLoading(false);
-  }, [location]);
+  }, [location, enterpriseData]);
 
   // cuando se cambia la position asignamos al formData
   useEffect(() => {

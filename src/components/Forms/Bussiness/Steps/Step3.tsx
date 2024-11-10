@@ -64,7 +64,11 @@ const Step3 = ({
         </p>
       </motion.div>
       <div className='w-full h-full py-4'>
-        <Mapa location={direction} setFormData={setFormData} />
+        <Mapa
+          location={direction}
+          setFormData={setFormData}
+          enterpriseData={enterpriseData}
+        />
       </div>
       <p className='text-xs text-zinc-500'>
         Puedes modificar tu dirección exacta en este mapa

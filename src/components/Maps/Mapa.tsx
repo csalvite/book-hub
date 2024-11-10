@@ -79,7 +79,6 @@ const Mapa = ({
           const { latitude, longitude } = position.coords;
 
           setPosition([latitude, longitude]);
-          setLoading(false);
         });
       }
     } else {
@@ -87,6 +86,7 @@ const Mapa = ({
         fetchCoordinates(location);
       }
     }
+    setLoading(false);
   }, [location]);
 
   // cuando se cambia la position asignamos al formData

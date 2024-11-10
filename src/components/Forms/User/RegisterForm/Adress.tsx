@@ -6,6 +6,7 @@ export const Address = ({
   title,
   business,
   formData,
+  validation,
   handleInputChange,
   prevStep,
   nextStep,
@@ -14,6 +15,7 @@ export const Address = ({
   title: string;
   business: boolean;
   formData: any;
+  validation: any;
   handleInputChange: any;
   prevStep: () => void;
   nextStep: () => void;
@@ -47,6 +49,7 @@ export const Address = ({
               label='Dirección'
               type='text'
               name='address'
+              invalid={validation?.address || false}
               value={formData['address'] || ''}
               onChange={handleInputChange}
               className='grow w-full'
@@ -56,6 +59,7 @@ export const Address = ({
               label='Número'
               type='number'
               name='addressNum'
+              invalid={validation?.addressNum || false}
               value={formData['addressNum'] || ''}
               onChange={handleInputChange}
               className='w-16'
@@ -66,6 +70,7 @@ export const Address = ({
             label='Ciudad'
             type='text'
             name='city'
+            invalid={validation?.city || false}
             value={formData['city'] || ''}
             onChange={handleInputChange}
             placeholder='Ciudad'
@@ -74,6 +79,7 @@ export const Address = ({
             label='Provincia'
             type='text'
             name='state'
+            invalid={validation?.state || false}
             value={formData['state'] || ''}
             onChange={handleInputChange}
             placeholder='Provincia'
@@ -83,6 +89,7 @@ export const Address = ({
               label='Código postal'
               type='text'
               name='zipCode'
+              invalid={validation?.zipCode || false}
               value={formData['zipCode'] || ''}
               onChange={handleInputChange}
               placeholder='Código postal'
@@ -91,6 +98,7 @@ export const Address = ({
               label='País'
               type='text'
               name='country'
+              invalid={validation?.country || false}
               value={formData['country'] || ''}
               onChange={handleInputChange}
               placeholder='País'

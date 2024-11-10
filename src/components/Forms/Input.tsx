@@ -42,12 +42,17 @@ export const Input = ({
           type={type}
           name={name}
           className={`mt-[0.3rem] border border-slate-300 text-sm rounded p-2 w-full
-            ${className} ${valid} ${invalid}`}
+            ${className} ${valid} ${invalid && 'border-red-400'}`}
           value={value}
           placeholder={placeholder}
           required={required}
           onChange={onChange}
         />
+        {invalid && (
+          <span className='text-red-400 text-xs'>
+            Debes indicar un valor válido
+          </span>
+        )}
       </div>
     </div>
   );

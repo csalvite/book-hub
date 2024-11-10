@@ -63,6 +63,14 @@ export interface IServicesRecommended {
   name: string;
 }
 
+export interface IOptionServices {
+  id: number;
+  name: string;
+  description: string;
+  duration: string;
+  price: number;
+}
+
 export interface IOpeningHoursSchedule {
   [key: string]: {
     day: string;

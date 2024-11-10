@@ -6,6 +6,7 @@ import {
   EnterpriseFormData,
   IOpeningHours,
 } from '@/interfaces/enterprise-form';
+import { validateInput } from '@/utils/validation';
 
 const Step1 = ({
   nextStep,
@@ -24,6 +25,13 @@ const Step1 = ({
     ownerMail: enterpriseData.business?.owner.mail || '',
     ownerPhone: enterpriseData.business?.owner.phone || '',
     prefix: enterpriseData.business?.owner.prefix || '',
+  });
+  const [validation, setValidation] = useState({
+    name: false,
+    password: false,
+    ownerName: false,
+    ownerMail: false,
+    ownerPhone: false,
   });
 
   const handleInputChange = (
@@ -50,20 +58,38 @@ const Step1 = ({
   };
 
   const submitDataOnNextStep = () => {
-    updateEnterpriseData({
-      business: {
-        name: formData.name,
-        type: 0,
-        password: formData.password,
-        owner: {
-          name: formData.ownerName,
-          mail: formData.ownerMail,
-          phone: formData.ownerPhone,
-          prefix: formData.prefix,
+    const newValidation = { ...validation };
+    let allValid = true;
+
+    for (const key in formData) {
+      if (key === 'type') continue;
+
+      // Convertimos key al tipo correcto
+      const typedKey = key as keyof typeof formData;
+      const value = formData[typedKey];
+      const isValid = validateInput(typedKey, String(value));
+      newValidation[typedKey as keyof typeof validation] = !isValid;
+      if (!isValid) allValid = false;
+    }
+
+    setValidation(newValidation);
+
+    if (allValid) {
+      updateEnterpriseData({
+        business: {
+          name: formData.name,
+          type: 0,
+          password: formData.password,
+          owner: {
+            name: formData.ownerName,
+            mail: formData.ownerMail,
+            phone: formData.ownerPhone,
+            prefix: formData.prefix,
+          },
         },
-      },
-    });
-    nextStep();
+      });
+      nextStep();
+    }
   };
 
   useEffect(() => {
@@ -90,6 +116,7 @@ const Step1 = ({
         title='Crea un negocio'
         business={true}
         formData={formData}
+        validation={validation}
         handleInputChange={handleInputChange}
         className='h-[80vh] py-8 w-full rounded-xl border border-black md:w-full bg-white flex flex-col items-center justify-evenly text-zinc-950'
         onClick={submitDataOnNextStep}

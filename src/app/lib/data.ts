@@ -38,7 +38,7 @@ export async function getBusinessTypes(
 }
 
 export async function getServicesRecommended(
-  id: number
+  id?: number
 ): Promise<IServicesRecommended[]> {
   try {
     const url = `${BOOKHUB_API}/services/recommended?businessTypeId=${id}`;

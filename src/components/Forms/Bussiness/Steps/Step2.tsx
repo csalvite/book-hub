@@ -3,6 +3,7 @@ import { Address } from '@/components/Forms/User/RegisterForm/Adress';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { EnterpriseFormData } from '@/interfaces/enterprise-form';
+import { validateInput } from '@/utils/validation';
 
 const Step2 = ({
   enterpriseData,
@@ -22,6 +23,15 @@ const Step2 = ({
     state: enterpriseData.location?.state || '',
     zipCode: enterpriseData.location?.zipCode || '',
     country: enterpriseData.location?.country || '',
+  });
+
+  const [validation, setValidation] = useState({
+    address: false,
+    addressNum: false,
+    city: false,
+    state: false,
+    zipCode: false,
+    country: false,
   });
 
   const handleInputChange = (
@@ -48,19 +58,37 @@ const Step2 = ({
   };
 
   const submitDataOnNextStep = () => {
-    updateEnterpriseData({
-      location: {
-        address: formData.address,
-        addressNum: formData.addressNum,
-        city: formData.city,
-        state: formData.state,
-        zipCode: formData.zipCode,
-        country: formData.country,
-        latitude: 0,
-        longitude: 0,
-      },
-    });
-    nextStep();
+    const newValidation = { ...validation };
+    let allValid = true;
+
+    for (const key in formData) {
+      if (key === 'type') continue;
+
+      // Convertimos key al tipo correcto
+      const typedKey = key as keyof typeof formData;
+      const value = formData[typedKey];
+      const isValid = validateInput(typedKey, String(value));
+      newValidation[typedKey as keyof typeof validation] = !isValid;
+      if (!isValid) allValid = false;
+    }
+
+    setValidation(newValidation);
+
+    if (allValid) {
+      updateEnterpriseData({
+        location: {
+          address: formData.address,
+          addressNum: formData.addressNum,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country,
+          latitude: 0,
+          longitude: 0,
+        },
+      });
+      nextStep();
+    }
   };
 
   useEffect(() => {
@@ -86,6 +114,7 @@ const Step2 = ({
         title='Dirección'
         business={true}
         formData={formData}
+        validation={validation}
         handleInputChange={handleInputChange}
         prevStep={prevStep}
         nextStep={nextStep}

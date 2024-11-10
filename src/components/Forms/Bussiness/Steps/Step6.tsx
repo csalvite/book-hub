@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   EnterpriseFormData,
+  IOptionServices,
   IServicesRecommended,
 } from '@/interfaces/enterprise-form';
 import Loader from '@/components/Loader';
@@ -18,19 +19,29 @@ const Step6 = ({
   enterpriseData: Partial<EnterpriseFormData>;
 }) => {
   const [type, setType] = useState('');
-  const [options, setOptions] = useState<IServicesRecommended[]>([]);
+  const [options, setOptions] = useState<IOptionServices[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedService, setSelectedService] =
-    useState<IServicesRecommended | null>(null);
+    useState<IOptionServices | null>(null);
   const [open, setOpen] = useState(false);
 
   const fetchServices = async () => {
     setLoading(true);
     try {
       const response: IServicesRecommended[] = await getServicesRecommended(
-        7937
+        enterpriseData.business?.type
       );
-      setOptions(response);
+
+      const optionServices = response.map((res) => {
+        return {
+          ...res,
+          description: '',
+          duration: '00:00',
+          price: 0,
+        };
+      });
+
+      setOptions(optionServices);
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,14 +49,23 @@ const Step6 = ({
     }
   };
 
-  const handleOpenModal = (service: IServicesRecommended) => {
+  const handleOpenModal = (service: IOptionServices) => {
     setSelectedService(service);
     setOpen(true);
   };
 
+  const addServiceSelected = (service: IOptionServices) => {
+    console.log(service);
+  };
+
   useEffect(() => {
-    fetchServices();
-  }, []);
+    if (enterpriseData.business && enterpriseData.business.type) {
+      fetchServices();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enterpriseData.business?.type]);
+
+  console.log('selectedService: ', selectedService);
 
   return (
     <motion.div
@@ -94,7 +114,12 @@ const Step6 = ({
       </div>
 
       {selectedService && (
-        <ServiceModal service={selectedService} open={open} setOpen={setOpen} />
+        <ServiceModal
+          service={selectedService}
+          open={open}
+          setOpen={setOpen}
+          onClick={addServiceSelected}
+        />
       )}
 
       <div className='w-full flex gap-4'>

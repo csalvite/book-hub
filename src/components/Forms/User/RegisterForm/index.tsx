@@ -8,6 +8,7 @@ export const RegisterForm = ({
   business,
   className,
   formData,
+  validation,
   handleInputChange,
   onClick,
 }: {
@@ -15,6 +16,7 @@ export const RegisterForm = ({
   business: boolean;
   className: string;
   formData: any;
+  validation: any;
   handleInputChange: any;
   onClick: () => void;
 }) => {
@@ -54,6 +56,7 @@ export const RegisterForm = ({
               label='Nombre del negocio'
               type='text'
               name='name'
+              invalid={validation?.name || false}
               value={formData['name'] || ''}
               onChange={handleInputChange}
               placeholder='Introduce el nombre de tu negocio'
@@ -63,6 +66,7 @@ export const RegisterForm = ({
             label='Email'
             type='email'
             name='ownerMail'
+            invalid={validation?.ownerMail || false}
             value={formData['ownerMail']}
             onChange={handleInputChange}
             placeholder='Enter your email'
@@ -71,6 +75,7 @@ export const RegisterForm = ({
             label='Nombre y apellidos'
             type='text'
             name='ownerName'
+            invalid={validation?.ownerName || false}
             value={formData['ownerName']}
             onChange={handleInputChange}
             placeholder='Nombre y apellidos'
@@ -79,6 +84,7 @@ export const RegisterForm = ({
             label='Contraseña'
             type='password'
             placeholder='Password'
+            invalid={validation?.password || false}
             value={formData['password']}
             name='password'
             onChange={handleInputChange}
@@ -87,6 +93,7 @@ export const RegisterForm = ({
             label='Número de teléfono'
             type='telf'
             name='ownerPhone'
+            invalid={validation?.ownerPhone || false}
             value={formData['ownerPhone']}
             onChange={handleInputChange}
             prefix={formData['prefix']}

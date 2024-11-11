@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Tooltip } from '@nextui-org/tooltip';
+import { Button } from '@nextui-org/button';
 import {
   EnterpriseFormData,
   IOptionServices,
@@ -78,7 +80,24 @@ const Step6 = ({
       <motion.div className='w-full flex flex-col items-center'>
         <h1 className='text-3xl mb-2'>Servicios</h1>
         <h2 className='text-xs text-center'>
-          Selecciona y establece precios para tus servicios
+          <Tooltip
+            showArrow={true}
+            content='Puedes terminar de establecer los servicios más adelante'
+            className='text-slate-900'
+            // color='secondary'
+          >
+            <Button className='bg-transparent text-xs text-center'>
+              Selecciona y establece precios para tus servicios
+              <i
+                className='fa-solid fa-info w-8 h-8 bg-slate-300 rounded-full'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              ></i>
+            </Button>
+          </Tooltip>
         </h2>
       </motion.div>
 

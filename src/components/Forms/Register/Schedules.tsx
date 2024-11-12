@@ -1,7 +1,7 @@
 import { TimeInput } from '@nextui-org/date-input';
 import { useEffect, useState } from 'react';
 import { Button, Divider, Switch } from '@nextui-org/react';
-import { ToggleSwitch } from './ToggleSwitch';
+import { ToggleSwitch } from '../ToggleSwitch';
 import type { TimeValue } from '@react-types/datepicker';
 import { addLeadingZero } from '@/utils/dates';
 

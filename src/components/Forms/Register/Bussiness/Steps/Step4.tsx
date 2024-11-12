@@ -6,7 +6,7 @@ import {
   EnterpriseFormData,
   IBussinesType,
 } from '@/interfaces/enterprise-form';
-import { Input } from '../../Input';
+import { Input } from '../../../Input';
 import Loader from '@/components/Loader';
 import { getBusinessTypes } from '@/app/lib/data';
 import { Button } from '@nextui-org/button';

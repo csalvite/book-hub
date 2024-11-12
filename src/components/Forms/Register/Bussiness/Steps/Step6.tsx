@@ -22,6 +22,9 @@ const Step6 = ({
 }) => {
   const [type, setType] = useState('');
   const [options, setOptions] = useState<IOptionServices[]>([]);
+  const [servicesSelected, setServicesSelected] = useState<IOptionServices[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const [selectedService, setSelectedService] =
     useState<IOptionServices | null>(null);
@@ -56,8 +59,35 @@ const Step6 = ({
     setOpen(true);
   };
 
-  const addServiceSelected = (service: IOptionServices) => {
-    console.log(service);
+  const addServiceSelected = (option: IOptionServices) => {
+    setServicesSelected((prevData) => {
+      if (
+        prevData.filter((service) => service.name === option.name).length > 0
+      ) {
+        //si ya existía se modificamos sus valores
+        return prevData.map((service) => {
+          if (service.id === option.id) {
+            return {
+              ...service,
+              description: option.description,
+              duration: option.duration,
+              price: option.price,
+            };
+          }
+
+          return service;
+        });
+      }
+
+      // si no se añade
+      return [...prevData, option];
+    });
+  };
+
+  const handleCloseModalDropService = (option: IOptionServices) => {
+    setServicesSelected((prevData) => {
+      return prevData.filter((service) => service.name !== option.name);
+    });
   };
 
   useEffect(() => {
@@ -67,7 +97,8 @@ const Step6 = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterpriseData.business?.type]);
 
-  console.log('selectedService: ', selectedService);
+  console.log('servicesSelected: ', servicesSelected);
+  console.log('servicio: ', selectedService);
 
   return (
     <motion.div
@@ -112,12 +143,21 @@ const Step6 = ({
               {options.map((option, index) => (
                 <motion.div
                   key={index}
-                  onClick={() => handleOpenModal(option)}
+                  onClick={() => {
+                    handleOpenModal(option);
+                  }}
                   className='w-8/12 flex items-center justify-start gap-4 border p-4 mt-4 hover:border-black cursor-pointer'
                 >
                   <input
                     id={option.name}
                     type='checkbox'
+                    checked={
+                      servicesSelected.filter(
+                        (service) => service.name === option.name
+                      ).length > 0
+                        ? true
+                        : false
+                    }
                     name={option.name}
                     value={option.name}
                     onChange={() => {}}
@@ -138,6 +178,7 @@ const Step6 = ({
           open={open}
           setOpen={setOpen}
           onClick={addServiceSelected}
+          closeModal={handleCloseModalDropService}
         />
       )}
 

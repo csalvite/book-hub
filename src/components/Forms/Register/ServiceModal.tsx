@@ -11,7 +11,7 @@ import {
 } from '@nextui-org/react';
 import { Button } from '@nextui-org/button';
 import { IOptionServices } from '@/interfaces/enterprise-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { validateServices } from '@/utils/validation';
 
 interface ServiceModalProps {
@@ -19,6 +19,7 @@ interface ServiceModalProps {
   open: any;
   setOpen: (open: boolean) => void;
   onClick: (service: IOptionServices) => void;
+  closeModal: (service: IOptionServices) => void;
 }
 
 interface TimeOption {
@@ -36,6 +37,7 @@ export const ServiceModal = ({
   open,
   setOpen,
   onClick,
+  closeModal,
 }: ServiceModalProps) => {
   const [option, setOption] = useState(service);
   const [invalid, setInvalid] = useState({
@@ -137,6 +139,15 @@ export const ServiceModal = ({
     onClose();
   };
 
+  const submitClose = (onClose: any) => {
+    closeModal(option);
+    onClose();
+  };
+
+  useEffect(() => {
+    setOption(service);
+  }, [service]);
+
   return (
     <Modal
       isOpen={open}
@@ -160,6 +171,7 @@ export const ServiceModal = ({
                 classNames={{
                   input: 'resize-y min-h-[40px]',
                 }}
+                value={option.description}
                 onChange={(e) =>
                   handleChangeDescription(
                     e as unknown as React.ChangeEvent<HTMLTextAreaElement>
@@ -170,6 +182,7 @@ export const ServiceModal = ({
                 <Select
                   label='Horas'
                   isInvalid={invalid.hours}
+                  value={option?.duration.split(':')[0]}
                   className='max-w-xs'
                   onChange={handleSelectHours}
                 >
@@ -180,6 +193,7 @@ export const ServiceModal = ({
                 <Select
                   label='Minutos'
                   isInvalid={invalid.minutes}
+                  value={option?.duration.split(':')[1]}
                   className='max-w-xs'
                   onChange={handleSelectMinutes}
                 >
@@ -193,6 +207,7 @@ export const ServiceModal = ({
                 label='Precio'
                 isInvalid={invalid.price}
                 placeholder='0.00'
+                value={option?.price.toString()}
                 labelPlacement='outside'
                 onChange={handleChangePrice}
                 endContent={
@@ -203,8 +218,12 @@ export const ServiceModal = ({
               />
             </ModalBody>
             <ModalFooter>
-              <Button color='danger' variant='light' onPress={onClose}>
-                Cerrar
+              <Button
+                color='danger'
+                variant='light'
+                onPress={() => submitClose(onClose)}
+              >
+                Borrar
               </Button>
               <Button
                 color='primary'

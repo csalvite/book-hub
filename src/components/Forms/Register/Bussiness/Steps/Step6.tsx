@@ -15,10 +15,12 @@ const Step6 = ({
   prevStep,
   nextStep,
   enterpriseData,
+  updateEnterpriseData,
 }: {
   prevStep: () => void;
   nextStep: () => void;
   enterpriseData: Partial<EnterpriseFormData>;
+  updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
 }) => {
   const [type, setType] = useState('');
   const [options, setOptions] = useState<IOptionServices[]>([]);
@@ -90,15 +92,19 @@ const Step6 = ({
     });
   };
 
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData({
+      services: servicesSelected,
+    });
+    nextStep();
+  };
+
   useEffect(() => {
     if (enterpriseData.business && enterpriseData.business.type) {
       fetchServices();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterpriseData.business?.type]);
-
-  console.log('servicesSelected: ', servicesSelected);
-  console.log('servicio: ', selectedService);
 
   return (
     <motion.div
@@ -196,6 +202,7 @@ const Step6 = ({
           className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
           whileHover={{ scale: [null, 1.1, 1.05] }}
           transition={{ duration: 0.3 }}
+          onClick={submitDataOnNextStep}
         >
           Continuar
         </motion.button>

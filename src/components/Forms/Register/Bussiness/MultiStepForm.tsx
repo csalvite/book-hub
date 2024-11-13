@@ -58,15 +58,7 @@ export default function MultiStepForm() {
       saturday: '',
       sunday: '',
     },
-    services: [
-      {
-        name: '',
-        type: '',
-        description: '',
-        price: 0,
-        duration: 0,
-      },
-    ],
+    services: [],
     images: {
       hero: '',
       additionalImages: [],
@@ -139,7 +131,7 @@ export default function MultiStepForm() {
       {step === 6 && (
         <Step6
           enterpriseData={enterpriseData}
-          // updateEnterpriseData={updateEnterpriseData}
+          updateEnterpriseData={updateEnterpriseData}
           prevStep={prevStep}
           nextStep={nextStep}
         />

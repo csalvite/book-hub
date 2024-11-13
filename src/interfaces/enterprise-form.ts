@@ -12,15 +12,7 @@ export interface EnterpriseFormData {
   };
   location: IEnterpriseLocation;
   openingHours: IOpeningHours;
-  services: [
-    {
-      name: string;
-      type: string;
-      description: string;
-      price: number;
-      duration: number;
-    }
-  ];
+  services: IOptionServices[];
   images: {
     hero: string;
     additionalImages: string[];

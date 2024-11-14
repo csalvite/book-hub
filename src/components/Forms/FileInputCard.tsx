@@ -1,6 +1,35 @@
-import { Card, CardHeader, CardBody, Image, Button } from '@nextui-org/react';
+import { Card, CardHeader, CardBody, Image, Spinner } from '@nextui-org/react';
+import { useState } from 'react';
 
-export const FileInputCard = () => {
+export const FileInputCard = ({
+  imagePreview,
+  setImagePreview,
+}: {
+  imagePreview: string;
+  setImagePreview: (result: any) => void;
+}) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChangeImagePreview = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { files } = event.target;
+    setLoading(true);
+
+    if (files) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(files[0]);
+      reader.onload = (e) => {
+        if (e.target?.result && typeof e.target.result === 'string') {
+          e.preventDefault();
+          setImagePreview(e.target.result);
+          setLoading(false);
+        }
+      };
+    }
+  };
+
   return (
     <Card className='py-4'>
       <CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
@@ -11,24 +40,39 @@ export const FileInputCard = () => {
       </CardHeader>
       <CardBody className='overflow-visible py-2'>
         <div className='flex flex-col items-center justify-center space-y-6'>
-          <div className='w-full h-56 border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center'>
+          <div className='w-full h-56 border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center relative'>
+            <input
+              type='file'
+              className='opacity-0 absolute w-full h-full cursor-pointer'
+              accept='image/*'
+              // multiple
+              onChange={handleChangeImagePreview}
+            />
             <CloudUploadIcon className='h-10 w-10 text-gray-500 dark:text-gray-400' />
             <p className='text-gray-500 dark:text-gray-400'>
-              Arrastra la imagen aqui
+              Haz click o arrastra la imagen aqui
             </p>
           </div>
-          <p className='text-gray-500 dark:text-gray-400'>or</p>
-          <Button variant='bordered' className='w-32'>
-            Buscar imágenes
-          </Button>
-          <div className='w-full'>
-            <p className='text-gray-500 dark:text-gray-400 mb-2'>
-              Cargando imágen...
-            </p>
-            <div className='h-2 rounded overflow-hidden'>
-              <div className='h-full bg-blue-500' style={{ width: '70%' }} />
-            </div>
-          </div>
+
+          {loading ||
+            (imagePreview && (
+              <div className='w-full flex justify-center'>
+                {loading ? (
+                  <Spinner
+                    label='Cargando imágen preview...'
+                    color='default'
+                    labelColor='foreground'
+                  />
+                ) : (
+                  <Image
+                    width={500}
+                    className='w-full h-80 object-cover'
+                    alt='Preview imagen del negocio'
+                    src={imagePreview}
+                  />
+                )}
+              </div>
+            ))}
         </div>
       </CardBody>
     </Card>

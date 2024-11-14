@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { EnterpriseFormData } from '@/interfaces/enterprise-form';
 import { FileInputCard } from '@/components/Forms/FileInputCard';
+import { useState } from 'react';
 
 const Step8 = ({
   prevStep,
@@ -13,12 +14,20 @@ const Step8 = ({
   enterpriseData: Partial<EnterpriseFormData>;
   updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
 }) => {
-  // const submitDataOnNextStep = () => {
-  //   updateEnterpriseData({
-  //     services: servicesSelected,
-  //   });
-  //   nextStep();
-  // };
+  const [imagePreview, setImagePreview] = useState<string>('');
+
+  // TODO: PENDIENTE COMPROBAR SI EL BACKEND ESPERA UN BASE64 O UN ARCHIVO
+  const submitDataOnNextStep = () => {
+    updateEnterpriseData({
+      images: {
+        hero: imagePreview,
+        additionalImages: [],
+      },
+    });
+    nextStep();
+  };
+
+  console.log(imagePreview);
 
   return (
     <motion.div
@@ -28,15 +37,11 @@ const Step8 = ({
       transition={{ ease: 'easeOut', duration: 0.3 }}
       className='py-4 w-full h-[80vh] flex flex-col justify-center items-center'
     >
-      <motion.div className='w-full flex flex-col items-center'>
-        <h1 className='text-3xl mb-2'>Imagen principal?</h1>
-        <h2 className='text-xs text-center'>
-          Establece unas imágenes para tu negocio
-        </h2>
-      </motion.div>
-
-      <div className='w-full h-[80%] py-4 flex flex-col items-center justify-center'>
-        <FileInputCard />
+      <div className='w-full h-full py-4 flex flex-col items-center justify-center'>
+        <FileInputCard
+          imagePreview={imagePreview}
+          setImagePreview={setImagePreview}
+        />
       </div>
 
       <div className='w-full flex gap-4'>
@@ -53,7 +58,7 @@ const Step8 = ({
           className='w-full mt-4 text-slate-300 bg-black border border-black rounded p-2'
           whileHover={{ scale: [null, 1.1, 1.05] }}
           transition={{ duration: 0.3 }}
-          onClick={() => nextStep()}
+          onClick={submitDataOnNextStep}
         >
           Continuar
         </motion.button>

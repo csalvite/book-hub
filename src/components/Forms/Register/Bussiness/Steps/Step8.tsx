@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { EnterpriseFormData } from '@/interfaces/enterprise-form';
+import { FileInputCard } from '@/components/Forms/FileInputCard';
 
 const Step8 = ({
   prevStep,
@@ -34,8 +35,8 @@ const Step8 = ({
         </h2>
       </motion.div>
 
-      <div className='w-full h-[80%] py-4 flex flex-col items-center'>
-        aqui cosas de input para imagenes y así supongo
+      <div className='w-full h-[80%] py-4 flex flex-col items-center justify-center'>
+        <FileInputCard />
       </div>
 
       <div className='w-full flex gap-4'>

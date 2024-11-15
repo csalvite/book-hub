@@ -3,6 +3,7 @@ import { PrefixSelector } from './PrefixSelector';
 interface inputProps {
   id?: string;
   label?: string;
+  min?: number;
   type?: string;
   className?: string;
   name?: string;
@@ -20,6 +21,7 @@ export const Input = ({
   id = '',
   label = '',
   type = 'text',
+  min,
   className,
   name = '',
   value,
@@ -48,6 +50,7 @@ export const Input = ({
             ${className} ${valid} ${
             invalid ? 'border-red-400' : 'border-slate-300'
           }`}
+          min={min}
           value={value}
           placeholder={placeholder}
           required={required}

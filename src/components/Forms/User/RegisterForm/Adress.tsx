@@ -60,6 +60,7 @@ export const Address = ({
               type='number'
               name='addressNum'
               invalid={validation?.addressNum || false}
+              min={0}
               value={formData['addressNum'] || ''}
               onChange={handleInputChange}
               className='w-16'

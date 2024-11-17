@@ -1,6 +1,4 @@
 'use client';
-
-import { useSearchParams } from 'next/navigation';
 import { Card } from './Card';
 import { CardData } from '@/interfaces/card-data';
 
@@ -64,9 +62,6 @@ const cardData: CardData[] = [
 ];
 
 export const CardList = () => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id'); // `id` proviene de la URL dinámica (?id=value)
-
   return (
     <ul className='card-list'>
       {cardData.map((card) => (

@@ -31,10 +31,13 @@ const Step6 = ({
   const [selectedService, setSelectedService] =
     useState<IOptionServices | null>(null);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchServices = async () => {
     setLoading(true);
     try {
+      console.log(enterpriseData.business?.type);
+
       const response: IServicesRecommended[] = await getServicesRecommended(
         enterpriseData.business?.type
       );
@@ -50,7 +53,8 @@ const Step6 = ({
 
       setOptions(optionServices);
     } catch (error) {
-      console.error(error);
+      console.error('Failed to get services:', error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -139,6 +143,14 @@ const Step6 = ({
       </motion.div>
 
       <div className='w-full h-[80%] py-4 flex flex-col items-center'>
+        {error && (
+          <div className='p-4 flex flex-col items-center justify-center'>
+            <h4>Ha ocurrido un error al obtener los servicios</h4>
+            <p>
+              Puedes terminar el registro y añadir los servicios más adelante.
+            </p>
+          </div>
+        )}
         {loading ? (
           <div className='p-4'>
             <Loader className='w-12 h-12' />

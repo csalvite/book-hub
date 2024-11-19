@@ -1,16 +1,19 @@
 'use server';
 
 import {
+  EnterpriseFormData,
   IBussinesType,
   IServicesRecommended,
 } from '@/interfaces/enterprise-form';
+import { convertServicesDurationToMinutes } from '@/utils/dates';
 
 const { BOOKHUB_API } = process.env;
 
-async function fetchBookHub(url: string, method: string) {
+async function fetchBookHub(url: string, method: string, request?: any) {
   // Usa la URL relativa que pasará a través del proxy
   const options = {
     method: method,
+    body: JSON.stringify(request),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -48,5 +51,64 @@ export async function getServicesRecommended(
     return response;
   } catch (error) {
     throw new Error('Failed to obtain services recommended');
+  }
+}
+
+export async function createBusiness(
+  businessRQ: EnterpriseFormData
+): Promise<any> {
+  try {
+    const url = `${BOOKHUB_API}/business`;
+    const { business, location, openingHours, services, images } = businessRQ;
+
+    const request = {
+      business: {
+        name: business.name,
+        type: business.type,
+        password: business.password,
+        owner: {
+          name: business.owner.name,
+          mail: business.owner.mail,
+          phone: `${business.owner.prefix ? business.owner.prefix : '+34'} ${
+            business.owner.phone
+          }`,
+        },
+      },
+      location: {
+        address: location.address,
+        city: location.city,
+        state: location.state,
+        zipCode: location.zipCode,
+        country: location.country,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+      openingHours: {
+        monday: openingHours.monday,
+        tuesday: openingHours.tuesday,
+        wednesday: openingHours.wednesday,
+        thursday: openingHours.thursday,
+        friday: openingHours.friday,
+        saturday: openingHours.saturday,
+        sunday: openingHours.sunday,
+      },
+      services: services.map((service) => {
+        return {
+          id: service.id,
+          name: service.name,
+          type: business.type.toString(),
+          description: service.description,
+          price: service.price,
+          duration: convertServicesDurationToMinutes(service.duration),
+        };
+      }),
+      images: images,
+    };
+
+    const response = await fetchBookHub(url, 'POST', request);
+
+    return response;
+  } catch (error) {
+    throw new Error();
   }
 }

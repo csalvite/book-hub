@@ -4,17 +4,21 @@ import { useEffect, useState } from 'react';
 import { createBusiness } from '@/app/lib/data';
 import Loader from '@/components/Loader';
 import { Image } from '@nextui-org/react';
+import Link from 'next/link';
 
 const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [resume, setResume] = useState();
 
   const submitCreateBusiness = async () => {
     try {
       const response = await createBusiness(enterpriseData);
 
       console.log('respuesta se ha creado un negocio?: ', response);
+
+      setResume(response);
     } catch (error) {
       setError(true);
       console.error('Failed to create business: ', error);
@@ -46,7 +50,7 @@ const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
           alt='NextUI hero Image with delay'
           src='https://app.requestly.io/delay/500/https://nextui.org/images/hero-card-complete.jpeg'
         />
-        <div>
+        <div className='flex justify-center'>
           {loading && (
             <div className='p-4'>
               <Loader className='w-12 h-12' />
@@ -60,10 +64,21 @@ const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
           )}
 
           {!error && !loading && (
-            <>
-              <h2>NEGOCIO CREADO CORRECTAMENTE!!</h2>
-              <p>Gracias por confiar en bookhub</p>
-            </>
+            <div className='w-[80%] text-center flex flex-col items-center justify-center gap-4'>
+              <h2 className='text-2xl'>Negocio configurado correctamente!</h2>
+              <p className='text-lg'>Gracias por confiar en bookhub</p>
+              <p className='text-md'>
+                Te ayudaremos a sacar el mayor potencial a tu negocio y que la
+                gestión de reservas sea lo más amena posible.
+              </p>
+              <motion.button
+                className='w-[80%] mt-16 text-slate-300 bg-black border border-black rounded p-2'
+                whileHover={{ scale: [null, 1.1, 1.05] }}
+                transition={{ duration: 0.3 }}
+              >
+                <Link href={'/dashboard'}>Continuar</Link>
+              </motion.button>
+            </div>
           )}
         </div>
       </div>

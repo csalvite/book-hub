@@ -97,18 +97,25 @@ export async function createBusiness(
           id: service.id,
           name: service.name,
           type: business.type.toString(),
-          description: service.description,
+          description: service.description || '',
           price: service.price,
           duration: convertServicesDurationToMinutes(service.duration),
         };
       }),
-      images: images,
+      images: {
+        hero: '',
+        additionalImages: [],
+      },
     };
 
-    const response = await fetchBookHub(url, 'POST', request);
+    const response: any = await fetchBookHub(url, 'POST', request);
+
+    if (response.error && response.statusCode && response.statusCode >= 400) {
+      throw new Error(response.message);
+    }
 
     return response;
   } catch (error) {
-    throw new Error();
+    return error;
   }
 }

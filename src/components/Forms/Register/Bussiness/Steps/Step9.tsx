@@ -8,6 +8,7 @@ import { Image } from '@nextui-org/react';
 const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const submitCreateBusiness = async () => {
     try {
@@ -23,7 +24,10 @@ const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
   };
 
   useEffect(() => {
-    submitCreateBusiness();
+    if (!submitted) {
+      setSubmitted(true);
+      submitCreateBusiness();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

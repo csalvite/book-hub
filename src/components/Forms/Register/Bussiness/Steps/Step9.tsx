@@ -66,7 +66,7 @@ const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
           {!error && !loading && (
             <div className='w-[80%] text-center flex flex-col items-center justify-center gap-4'>
               <h2 className='text-2xl'>Negocio configurado correctamente!</h2>
-              <p className='text-lg'>Gracias por confiar en bookhub</p>
+              <p className='text-lg'>Gracias por confiar en BookHub</p>
               <p className='text-md'>
                 Te ayudaremos a sacar el mayor potencial a tu negocio y que la
                 gestión de reservas sea lo más amena posible.

@@ -20,6 +20,16 @@ body > div {
   flex-direction: column;
 }
 
+p,
+div,
+nav,
+menu,
+li,
+a,
+button {
+  color: rgb(2 6 23);
+}
+
 [type='checkbox'] {
   opacity: 0;
 }

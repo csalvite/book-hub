@@ -54,6 +54,38 @@ export async function getServicesRecommended(
   }
 }
 
+export async function insertBusinessImage(formData: FormData): Promise<any> {
+  try {
+    if (!formData) {
+      throw new Error('No se seleccionó ningún archivo');
+    }
+
+    const url = `${BOOKHUB_API}/images/upload`;
+
+    const options = {
+      method: 'POST',
+      body: formData, // FormData gestiona automáticamente el encabezado Content-Type
+    };
+
+    const res = await fetch(url, options);
+
+    if (!res.ok) {
+      const errorResponse = await res.json();
+      throw new Error(
+        `Error al subir el archivo: ${errorResponse.message || 'Desconocido'}`
+      );
+    }
+
+    const response = await res.json();
+    console.log('Respuesta del servidor:', response);
+
+    return response;
+  } catch (error: any) {
+    console.error('Error al subir imagen:', error);
+    return { error: error.message || 'Error desconocido' };
+  }
+}
+
 export async function createBusiness(
   businessRQ: EnterpriseFormData
 ): Promise<any> {

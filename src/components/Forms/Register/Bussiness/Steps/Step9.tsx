@@ -76,7 +76,9 @@ const Step9 = ({ enterpriseData }: { enterpriseData: EnterpriseFormData }) => {
                 whileHover={{ scale: [null, 1.1, 1.05] }}
                 transition={{ duration: 0.3 }}
               >
-                <Link href={'/dashboard'}>Continuar</Link>
+                <Link href={'/dashboard'} className='text-slate-200'>
+                  Continuar
+                </Link>
               </motion.button>
             </div>
           )}

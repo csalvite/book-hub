@@ -46,7 +46,7 @@ export default function Home() {
           <Link href={'/business'}>
             <p className='p-2 inline-block flex items-center justify-center gap-2'>
               <i className='fa-solid fa-shop text-2xl'></i>{' '}
-              <span className='hover:underline'>Suma tu negocio!</span>
+              <span className='hover:underline'>BookHub para negocios!</span>
             </p>
           </Link>
         </motion.div>

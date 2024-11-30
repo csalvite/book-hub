@@ -4,9 +4,11 @@ import { useState } from 'react';
 export const FileInputCard = ({
   imagePreview,
   setImagePreview,
+  setImageFile,
 }: {
   imagePreview: string;
   setImagePreview: (result: any) => void;
+  setImageFile: (result: any) => void;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,6 +26,7 @@ export const FileInputCard = ({
         if (e.target?.result && typeof e.target.result === 'string') {
           e.preventDefault();
           setImagePreview(e.target.result);
+          setImageFile(files[0]);
           setLoading(false);
         }
       };

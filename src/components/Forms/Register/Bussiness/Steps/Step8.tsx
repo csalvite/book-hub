@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { EnterpriseFormData } from '@/interfaces/enterprise-form';
 import { FileInputCard } from '@/components/Forms/FileInputCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { insertBusinessImage } from '@/app/lib/data';
 
 const Step8 = ({
   prevStep,
@@ -15,6 +16,7 @@ const Step8 = ({
   updateEnterpriseData: (data: Partial<EnterpriseFormData>) => void;
 }) => {
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   // TODO: PENDIENTE COMPROBAR SI EL BACKEND ESPERA UN BASE64 O UN ARCHIVO
   const submitDataOnNextStep = () => {
@@ -27,7 +29,25 @@ const Step8 = ({
     nextStep();
   };
 
-  console.log(imagePreview);
+  // guardamos en nuestro servidor la imagen que suba el negocio
+  useEffect(() => {
+    const insertFile = async () => {
+      try {
+        if (!imageFile) return;
+
+        const formData = new FormData();
+        formData.append('file', imageFile);
+
+        await insertBusinessImage(formData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    insertFile();
+  }, [imageFile]);
+
+  console.log('imagen seleccionada: ', imageFile);
 
   return (
     <motion.div
@@ -41,6 +61,7 @@ const Step8 = ({
         <FileInputCard
           imagePreview={imagePreview}
           setImagePreview={setImagePreview}
+          setImageFile={setImageFile}
         />
       </div>
 

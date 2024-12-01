@@ -11,6 +11,7 @@ import Loader from '@/components/Loader';
 // import { getBusinessTypes } from '@/app/lib/data';
 import { Button } from '@nextui-org/button';
 import { getBusinessTypes } from '@/api/business';
+import { debounce } from '@/utils/debounce';
 
 const Step4 = ({
   prevStep,
@@ -23,7 +24,7 @@ const Step4 = ({
   enterpriseData: Partial<EnterpriseFormData>;
   updateEnterpriseData: (type: number) => void;
 }) => {
-  const [type, setType] = useState('');
+  // const [type, setType] = useState('');
   const [typeOptions, setTypesOptions] = useState<IBussinesType[]>([]);
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -33,12 +34,12 @@ const Step4 = ({
   });
   const [error, setError] = useState(false);
 
-  const fetchBusinessType = async () => {
+  const fetchBusinessType = async (value: string) => {
     setError(false);
     setInvalid(false);
     setLoading(true);
     try {
-      const response: IBussinesType[] = await getBusinessTypes(type);
+      const response: IBussinesType[] = await getBusinessTypes(value);
       if (response.length < 1) setError(true);
       setTypesOptions(response);
     } catch (error) {
@@ -48,12 +49,21 @@ const Step4 = ({
     }
   };
 
-  const handleSearchBusinessType = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSearchBusinessType = debounce((value: string) => {
+    if (value.length > 3) {
+      fetchBusinessType(value);
+    }
+  }, 500);
+
+  // En el evento onChange
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setInvalid(false);
-    setType(value);
+    // setType(value);
+    if (value.length === 0) {
+      setTypesOptions([]);
+    }
+    handleSearchBusinessType(value);
   };
 
   const handleChangeBusinessType = (option: IBussinesType) => {
@@ -101,24 +111,17 @@ const Step4 = ({
             htmlFor='searchBusiness'
             className='text-sm block flex flex-col items-center justify-center'
           >
-            <Tooltip
-              showArrow={true}
-              content='Selecciona solo un tipo'
-              className='text-slate-900'
-              // color='secondary'
-            >
-              <Button className='bg-transparent'>
-                Busca tu tipo de negocio{' '}
-                <i
-                  className='fa-solid fa-info w-8 h-8 bg-slate-300 rounded-full'
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                ></i>
-              </Button>
-            </Tooltip>
+            <Button className='bg-transparent'>
+              Selecciona solo un tipo de negocio{' '}
+              <i
+                className='fa-solid fa-info w-8 h-8 bg-slate-300 rounded-full'
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              ></i>
+            </Button>
             {invalid && (
               <span className='text-red-400 text-sm'>
                 Debes seleccionar un tipo de negocio para continuar
@@ -129,17 +132,17 @@ const Step4 = ({
             <Input
               id='searchBusiness'
               name='businessType'
+              placeholder='Busca tu tipo de negocio'
               type='search'
-              value={type}
-              onChange={handleSearchBusinessType}
+              onChange={handleInputChange}
             />
 
-            <Button
+            {/* <Button
               onClick={() => fetchBusinessType()}
               className='bg-slate-200'
             >
               <i className='fa-solid fa-magnifying-glass'></i>
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
 
